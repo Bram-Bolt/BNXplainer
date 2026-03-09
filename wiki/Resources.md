@@ -7,7 +7,7 @@ https://www.bnlearn.com/bnrepository/
 
 **BN libaries:**
 
-https://www.bnlearn.com/bnrepository/
+https://pyagrum.readthedocs.io/en/2.3.2/
 
 
 **Frontend Libraries:**
