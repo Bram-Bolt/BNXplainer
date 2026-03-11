@@ -2,6 +2,9 @@ from dash import Dash
 import dash_mantine_components as dmc
 from pages.home import create_layout
 
+# mannualy select rendering
+import matplotlib
+matplotlib.use("Agg")
 
 app = Dash(__name__)
 
