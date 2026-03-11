@@ -1,7 +1,7 @@
 import dash_mantine_components as dmc
-from dash import html
+from dash import html, dcc, callback, Input, Output, State, no_update
 from services.inference_service import generate_inference_html
-
+from utils.file_utils import load_bn_from_base64
 
 def create_layout():
 
@@ -23,7 +23,12 @@ def create_layout():
                     [
 
                         dmc.Paper(
-                            "Input",
+                            [
+                                dcc.Upload(
+                                    id='upload-data',
+                                    children=html.Button('Upload File'),
+                                ),
+                            ],
                             withBorder=True,
                             p="md",
                             shadow="xl",
@@ -35,6 +40,7 @@ def create_layout():
                             [
                                 html.H3("Inference Diagram", style={"marginTop": 0}),
                                 html.Iframe(
+                                    id='inference-iframe',
                                     srcDoc=centered_html,
                                     style={
                                         "width": "100%",
@@ -76,3 +82,19 @@ def create_layout():
         padding="md",
         id="appshell",
     )
+
+
+@callback(
+    Output('inference-iframe', 'srcDoc'), 
+    Input('upload-data', 'contents'),
+    State('upload-data', 'filename')
+)
+def handle_uploaded_file(contents, filename):
+    if contents is not None:
+        bn = load_bn_from_base64(contents, filename)
+        
+        new_html = generate_inference_html(bn)
+        
+        return new_html
+        
+    return no_update
