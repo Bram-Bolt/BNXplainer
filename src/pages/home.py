@@ -1,5 +1,5 @@
 import dash_mantine_components as dmc
-from dash import html, dcc, callback, Input, Output, State, no_update
+from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback
 from services.inference_service import generate_inference_html
 from utils.file_utils import load_bn_from_base64
 
@@ -38,6 +38,12 @@ def create_layout():
 
                         dmc.Paper(
                             [
+                                dmc.LoadingOverlay(
+                                    id="loading-overlay",
+                                    visible=False,
+                                    overlayProps={"radius": "sm", "blur": 2, "color": "#ece4dc"},
+                                    zIndex=10,
+                                ),
                                 html.H3("Inference Diagram", style={"marginTop": 0}),
                                 html.Iframe(
                                     id='inference-iframe',
@@ -50,10 +56,12 @@ def create_layout():
                                     },
                                 ),
                             ],
+                            id="inference-paper",
                             withBorder=True,
                             p="md",
                             shadow="xl",
                             bg="#ece4dc",
+                            pos="relative",
                             style={
                                 "flex": 5,
                                 "borderColor": "black",
@@ -85,17 +93,30 @@ def create_layout():
     )
 
 
+# show overlay when a file is selected
+clientside_callback(
+    """
+    function(contents) {
+        if (contents) { return true; }
+        return dash_clientside.no_update;
+    }
+    """,
+    Output("loading-overlay", "visible", allow_duplicate=True),
+    Input("upload-data", "contents"),
+    prevent_initial_call=True,
+)
+
+
 @callback(
-    Output('inference-iframe', 'srcDoc'), 
+    Output('inference-iframe', 'srcDoc'),
+    Output('loading-overlay', 'visible'),
     Input('upload-data', 'contents'),
     State('upload-data', 'filename')
 )
 def handle_uploaded_file(contents, filename):
     if contents is not None:
         bn = load_bn_from_base64(contents, filename)
-        
         new_html = generate_inference_html(bn)
-        
-        return new_html
-        
-    return no_update
+        return new_html, False
+
+    return no_update, no_update
