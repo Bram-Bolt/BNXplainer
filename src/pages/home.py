@@ -107,6 +107,8 @@ clientside_callback(
 )
 
 
+import time
+
 @callback(
     Output('inference-iframe', 'srcDoc'),
     Output('loading-overlay', 'visible'),
@@ -114,9 +116,19 @@ clientside_callback(
     State('upload-data', 'filename')
 )
 def handle_uploaded_file(contents, filename):
-    if contents is not None:
-        bn = load_bn_from_base64(contents, filename)
-        new_html = generate_inference_html(bn)
-        return new_html, False
+    if contents is None:
+        return no_update, no_update
 
-    return no_update, no_update
+    start_total = time.perf_counter()
+
+    t0 = time.perf_counter()
+    bn = load_bn_from_base64(contents, filename)
+    print(f"load_bn_from_base64: {time.perf_counter() - t0:.3f}s")
+
+    t1 = time.perf_counter()
+    new_html = generate_inference_html(bn)
+    print(f"generate_inference_html: {time.perf_counter() - t1:.3f}s")
+
+    print(f"TOTAL callback time: {time.perf_counter() - start_total:.3f}s")
+
+    return new_html, False
