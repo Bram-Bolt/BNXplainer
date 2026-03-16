@@ -1,4 +1,5 @@
 import sqlite3
+import subprocess
 
 
 
@@ -30,12 +31,15 @@ def insertEntry(method_pref: int, exp1_rating: int, exp2_rating: int, exp3_ratin
     con.commit()
     
 
+# CONVERT SQLITE (.db) TO CSV FILE USING SHELL
 
-# EXAMPLE USE
-#
-# insertEntry(2,3,4,4,"This is great!")
-# 
+def SqliteToCsv():
+    subprocess.Popen('sqlite3 -header -csv feedback.db "select * from feedback;" > feedback.csv', shell=True)
 
+
+
+
+# HELPER FUNCTION
 def inputValidationDB(m,e1,e2,e3,o):
     if(isinstance([m,e1,e2,e3],int)): pass
     else: return True
