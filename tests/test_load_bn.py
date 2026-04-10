@@ -17,5 +17,3 @@ def test_load_cancer_bn():
     assert isinstance(bn, gum.BayesNet)
     assert bn.size() == 5
     assert set(bn.names()) == {"Pollution", "Smoker", "Cancer", "Xray", "Dyspnoea"}
-    
-test_load_cancer_bn()

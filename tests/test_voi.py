@@ -1,6 +1,5 @@
 import base64
 from pathlib import Path
-import pyagrum as gum
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.utils.file_utils import load_bn_from_base64
@@ -39,9 +38,3 @@ def test_voi_xray_ranks_above_smoker():
     bn = load_cancer_bn()
     scores = compute_voi(bn, target="Cancer", evidence={})
     assert scores["Xray"] > scores["Smoker"]
-
-test_voi_excludes_target_and_evidence()
-test_voi_scores_are_nonnegative()
-test_voi_sorted_descending()
-test_voi_returns_all_unobserved()
-test_voi_xray_ranks_above_smoker()

@@ -1,6 +1,5 @@
 import base64
 from pathlib import Path
-import pyagrum as gum
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.utils.file_utils import load_bn_from_base64
@@ -38,9 +37,3 @@ def test_prediction_changes_with_evidence():
     no_evidence = compute_prediction(bn, target="Cancer", evidence={})
     with_evidence = compute_prediction(bn, target="Cancer", evidence={"Smoker": 0})
     assert no_evidence["probabilities"] != with_evidence["probabilities"]
-
-test_prediction_returns_all_states()
-test_prediction_probabilities_sum_to_one()
-test_prediction_most_likely_state_is_valid()
-test_prediction_most_likely_probability_is_max()
-test_prediction_changes_with_evidence()
