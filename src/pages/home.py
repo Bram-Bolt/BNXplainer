@@ -3,6 +3,7 @@ from dash import html, dcc, callback, Input, Output, State, no_update, clientsid
 import json
 from services.inference_service import generate_inference_html, extract_bn_features
 from utils.file_utils import load_bn_from_base64
+from explanations.voi import compute_voi, voi_to_display
 
 #helper function to create rating radio buttons for likert scale
 #label: method name shown
@@ -15,6 +16,40 @@ def radio_row(label, group_id):
             id=group_id,
         ),
     ], gap="md")
+
+def render_voi_list(voi_data):
+    if not voi_data:
+        return dmc.Text("No data available.")
+    
+    max_evpi = max(item["evpi"] for item in voi_data) if voi_data else 0
+    
+    components = []
+    for item in voi_data:
+        pct = (item["evpi"] / max_evpi) * 100 if max_evpi > 0 else 0
+        
+        components.append(
+            dmc.Box([
+                dmc.Group([
+                    dmc.Text(item["variable"], fw=500, size="sm"),
+                    dmc.Text(f"{item['evpi']:.4f} bits", size="xs", c="dimmed"),
+                ], justify="space-between", mb=4),
+                dmc.Progress(value=pct, size="md", color="blue", radius="xl")
+            ], mb="md")
+        )
+        
+    return dmc.ScrollArea(
+        dmc.Stack(components, gap="xs"),
+        style={"flex": 1, "paddingRight": "11px"},
+        offsetScrollbars=False,
+        type="hover",
+        scrollbarSize=6,
+        styles={
+            "scrollbar": {
+                "backgroundColor": "transparent",
+                "&:hover": {"backgroundColor": "transparent"}
+            }
+        },
+    )
 
 def create_layout():
 
@@ -163,12 +198,19 @@ def create_layout():
                         ),
 
                         dmc.Paper(
-                            "Explain",
+                            [
+                                html.H3("Explanation (VOI)", style={"marginTop": 0}),
+                                dmc.Text(
+                                    "Value of Information indicates which variables would be most useful to observe next to reduce uncertainty about the target prediction.",
+                                    size="sm", mb="md", c="dimmed"
+                                ),
+                                html.Div(id="explain-content", style={"flex": 1, "display": "flex", "flexDirection": "column", "overflow": "hidden"})
+                            ],
                             withBorder=True,
                             p="md",
                             shadow="xl",
                             bg="#ece4dc",
-                            style={"flex": 2, "borderColor": "black"},
+                            style={"flex": 2, "borderColor": "black", "display": "flex", "flexDirection": "column", "maxHeight": "100%"},
                         ),
                     ],
                     align="stretch",
@@ -203,6 +245,7 @@ clientside_callback(
     Output('inference-iframe', 'srcDoc'),
     Output('loading-overlay', 'visible'),
     Output('nodes-list', 'children'),
+    Output('explain-content', 'children'),
     Input('upload-data', 'contents'),
     State('upload-data', 'filename')
 )
@@ -210,6 +253,9 @@ def handle_uploaded_file(contents, filename):
     if contents is not None:
         bn = load_bn_from_base64(contents, filename)
         new_html = generate_inference_html(bn)
+        
+        node_names = list(bn.names())
+        target_node = node_names[-1] if node_names else None
         
         # Extract BN features and create a list of components
         features = extract_bn_features(bn)
@@ -262,23 +308,52 @@ def handle_uploaded_file(contents, filename):
                         ])
                     )
                 
+            is_target = node_id == target_node
             node_elements.append(
                 dmc.Card(
                     children=[
-                        dmc.Text(node_id, fw=600),
+                        html.Div(
+                            dmc.Tooltip(
+                                label="Set as Target",
+                                position="right",
+                                withArrow=True,
+                                children=dmc.Text(node_id, fw=600, style={"display": "inline-block"})
+                            ),
+                            id={"type": "node-card-wrapper", "node": node_id},
+                            n_clicks=0,
+                            style={"cursor": "pointer", "marginBottom": "4px"}
+                        ),
                         *posteriors
                     ],
                     withBorder=True,
                     shadow="sm",
                     mb="sm",
                     bg="#ece4dc",
-                    style={"borderColor": "black"}
+                    style={
+                        "borderColor": "#228be6" if is_target else "black",
+                        "borderWidth": "2px" if is_target else "1px"
+                    },
+                    id={"type": "node-card", "node": node_id}
                 )
             )
             
-        return new_html, False, dmc.Stack(node_elements, gap="xs")
+        if target_node:
+            try:
+                voi_scores = compute_voi(bn, target=target_node, evidence={})
+                voi_data = voi_to_display(voi_scores)
+                
+                explain_content = dmc.Stack([
+                    dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
+                    render_voi_list(voi_data)
+                ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
+            except Exception as e:
+                explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
+        else:
+            explain_content = dmc.Text("No nodes available.")
 
-    return no_update, no_update, no_update
+        return new_html, False, dmc.Stack(node_elements, gap="xs"), explain_content
+
+    return no_update, no_update, no_update, no_update
 
 @callback(
     Output({'type': 'binary-text', 'node': MATCH, 'idx': ALL}, 'children'),
@@ -332,3 +407,48 @@ def sync_multi_sliders(values, ids):
         result_texts.append(f"{val/100:.1%}")
                  
     return result_values, result_texts
+
+@callback(
+    Output('explain-content', 'children', allow_duplicate=True),
+    Output({'type': 'node-card', 'node': ALL}, 'style'),
+    Input({'type': 'node-card-wrapper', 'node': ALL}, 'n_clicks'),
+    State('upload-data', 'contents'),
+    State('upload-data', 'filename'),
+    State({'type': 'node-card', 'node': ALL}, 'id'),
+    prevent_initial_call=True
+)
+def update_target_node(n_clicks_list, contents, filename, card_ids):
+    if not ctx.triggered or not contents:
+        return no_update, no_update
+        
+    triggered_id_str = ctx.triggered[0]['prop_id'].split('.')[0]
+    try:
+        triggered_id = json.loads(triggered_id_str)
+        target_node = triggered_id.get('node')
+    except json.JSONDecodeError:
+        return no_update, no_update
+        
+    if not target_node:
+        return no_update, no_update
+    
+    styles = []
+    for item in card_ids:
+        is_target = item['node'] == target_node
+        styles.append({
+            "borderColor": "#228be6" if is_target else "black",
+            "borderWidth": "2px" if is_target else "1px"
+        })
+        
+    bn = load_bn_from_base64(contents, filename)
+    try:
+        voi_scores = compute_voi(bn, target=target_node, evidence={})
+        voi_data = voi_to_display(voi_scores)
+        
+        explain_content = dmc.Stack([
+            dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
+            render_voi_list(voi_data)
+        ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
+    except Exception as e:
+        explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
+        
+    return explain_content, styles
