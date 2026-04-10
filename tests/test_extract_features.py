@@ -18,7 +18,7 @@ def test_extract_features_returns_expected_structure():
 
 def test_extract_features_returns_expected_edges_and_posteriors():
     bn = gum.loadBN("src/example_bns/cancer.net")
-    features = extract_bn_features(bn, evidence={"Smoker": 0})
+    features = extract_bn_features(bn, evidence={"Smoker": "True"})
 
     assert {
         (edge["source"], edge["target"])
@@ -29,7 +29,7 @@ def test_extract_features_returns_expected_edges_and_posteriors():
         ("Cancer", "Xray"),
         ("Cancer", "Dyspnoea"),
     }
-    assert features["evidence"] == {"Smoker": 0}
+    assert features["evidence"] == {"Smoker": "True"}
 
     for node in features["nodes"]:
         assert set(node) == {"id", "states", "parents", "children", "posterior"}
