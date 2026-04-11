@@ -45,3 +45,5 @@ test_voi_scores_are_nonnegative()
 test_voi_sorted_descending()
 test_voi_returns_all_unobserved()
 test_voi_xray_ranks_above_smoker()
+
+print("Succesfully passed all tests.")

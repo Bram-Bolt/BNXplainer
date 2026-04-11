@@ -4,6 +4,14 @@ from typing import Optional
 
 
 def entropy(probabilities: list) -> float:
+    """Calculate entropy of list of floats
+
+    Args:
+        probabilities (list): List of probabilities of distinct events
+
+    Returns:
+        float: Entropy of the input list
+    """
     return -sum(p * math.log2(p) for p in probabilities if p > 0)
 
 
@@ -13,16 +21,30 @@ def compute_voi(
     evidence: dict,
     candidates: Optional[list] = None
 ) -> dict:
+    """Value of Information explanation method
+
+    Args:
+        bn (gum.BayesNet): Input Bayesian Network
+        target (str): Name of target variable
+        evidence (dict): Dictionary of existing evidence
+        candidates (Optional[list], optional): Optional variable, list of candidate states. Defaults to None.
+
+    Returns:
+        dict: sorted dictionary of states and their VOI scores.
+    """
+    # Instantiate variables
     ie = gum.LazyPropagation(bn)
     ie.setEvidence(evidence)
     ie.makeInference()
 
+    # Calculate the posterior of the target variable
     target_posterior = [
         ie.posterior(target)[{target: i}]
         for i in range(bn.variable(target).domainSize())
     ]
     h_target = entropy(target_posterior)
 
+    # Set observed variable(s)
     observed = set(evidence.keys()) | {target}
     if candidates is None:
         candidates = [
@@ -33,6 +55,7 @@ def compute_voi(
 
     voi_scores = {}
 
+    # Calculate VOI scores
     for var in candidates:
         var_size = bn.variable(var).domainSize()
         expected_conditional_entropy = 0.0
@@ -59,6 +82,14 @@ def compute_voi(
 
 
 def voi_to_display(voi_scores: dict) -> list:
+    """Transform VOI scores to proper format for displaying
+
+    Args:
+        voi_scores (dict): VOI scores from compute_voi() method
+
+    Returns:
+        list: return voi_scores in proper format
+    """
     return [
         {
             "variable": var,
