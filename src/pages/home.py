@@ -199,12 +199,40 @@ def create_layout():
 
                         dmc.Paper(
                             [
-                                html.H3("Explanation (VOI)", style={"marginTop": 0}),
-                                dmc.Text(
-                                    "Value of Information indicates which variables would be most useful to observe next to reduce uncertainty about the target prediction.",
-                                    size="sm", mb="md", c="dimmed"
+                                dmc.Group(
+                                    [
+                                        html.H3(id="explanation-title", style={"marginTop": 0}),
+                                        explanation_dropdown_selection(),
+                                    ],
+                                    justify="space-between",
+                                    align="center",
                                 ),
-                                html.Div(id="explain-content", style={"flex": 1, "display": "flex", "flexDirection": "column", "overflow": "hidden"})
+                                
+                                dmc.Text(
+                                    id="explanation-description",
+                                    size="sm",
+                                    mb="md",
+                                    c="dimmed"
+                                ),
+                                dmc.Stack(
+                                    [
+                                        html.Div(
+                                            id="explain-content",
+                                            style={
+                                                "flex": 1,
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "overflow": "hidden"
+                                            }
+                                        ),
+
+                                        html.Div(
+                                            render_variable_list(placeholder_vars),
+                                            style={"height": "300px"}
+                                        )
+                                    ],
+                                    style={"flex": 1}
+                                )
                             ],
                             withBorder=True,
                             p="md",
@@ -452,3 +480,118 @@ def update_target_node(n_clicks_list, contents, filename, card_ids):
         explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
         
     return explain_content, styles
+
+
+def explanation_dropdown_selection():
+    return dmc.Select(
+        id="explanation-selector",
+        data=[
+            {"label": "VOI Explanation", "value": "voi"},
+            {"label": "MPE Explanation", "value": "mpe"},
+            {"label": "Scenario Explanation", "value": "scenario"},
+        ],
+        value="voi",
+        size="sm",
+        style={"width": 220},
+        styles={
+            "input": {
+                "borderColor": "black",
+            }
+        }
+    )
+    
+@callback(
+    Output("explanation-description", "children"),
+    Input("explanation-selector", "value"),
+)
+def update_explanation_description(method):
+    if method == "voi":
+        return (
+            "Value of Information indicates what variables are most useful "
+            "to observe next to reduce uncertainty about the target prediction."
+        )
+    elif method == "mpe":
+        return (
+            "Most Probable Explanation identifies the most probable combination of "
+            "variable states that explains the observed evidence."
+        )
+    elif method == "scenario":
+        return (
+            "Scenario Explanation looks at how different combinations of variable "
+            "states influence the target outcome under specified conditions."
+        )
+    
+    return ""
+
+@callback(
+    Output("explanation-title", "children"),
+    Input("explanation-selector", "value"),
+)
+
+def update_explanation_title(method):
+    titles = {
+        "voi": "Explanation (VOI)",
+        "mpe": "Explanation (MPE)",
+        "scenario": "Explanation (Scenario)",
+    }
+    return titles.get(method, "Explanation")
+
+
+# Helper function to display the list of variables in the explanation method
+def render_variable_list(variables):
+    if not variables:
+        return dmc.Text("No variables available.")
+
+    rows = []
+
+    for var in variables:
+        name = var.get("name", "Variable")
+        prediction = var.get("prediction", "-")
+        prob = var.get("probability", 0)
+
+        rows.append(
+            dmc.Group(
+                [
+                    dmc.Text(name, size="sm", style={"flex": 2}),
+
+                    dmc.Text(
+                        prediction,
+                        size="sm",
+                        style={"flex": 1, "color": "blue"}
+                    ),
+
+                    dmc.Group(
+                        [
+                            dmc.Progress(
+                                value=prob,
+                                style={"flex": 1, "minWidth": "80px"},
+                                radius="xs",
+                            ),
+                            dmc.Text(f"{prob:.0f}%", size="xs", w=35)
+                        ],
+                        style={"flex": 1},
+                        gap=6
+                    )
+                ],
+                justify="space-between",
+                align="center",
+                style={
+                    "padding": "6px 4px",
+                    "borderBottom": "1px solid #ddd"
+                }
+            )
+        )
+
+    return dmc.ScrollArea(
+        dmc.Stack(rows, gap=0),
+        style={"height": "100%"}
+    )
+    
+placeholder_vars = [
+    {"name": "Adjuvant therapy", "prediction": "no", "probability": 44},
+    {"name": "L1CAM", "prediction": "negative (<10%)", "probability": 67},
+    {"name": "LVSI", "prediction": "no", "probability": 59},
+    {"name": "Lymf node metastasis", "prediction": "no", "probability": 96},
+    {"name": "Myometrium invasion", "prediction": "<50%", "probability": 62},
+    {"name": "Survival", "prediction": "Yes", "probability": 96},
+]
