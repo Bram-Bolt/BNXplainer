@@ -4,6 +4,7 @@ import json
 from services.inference_service import generate_inference_html, extract_bn_features
 from utils.file_utils import load_bn_from_base64
 from explanations.voi import compute_voi, voi_to_display
+from db.database import insertEntry
 
 #helper function to create rating radio buttons for likert scale
 #label: method name shown
@@ -98,10 +99,10 @@ def create_layout():
                                         dmc.Text("confusing", size="xs", fw=500, w=60, c="#696969", ta="center"),
                                         dmc.Text("", w=80),
                                         dmc.Text("clarifying", size="xs", fw=500, w=60, c="#696969", ta="center"),
-                                    ], gap=0),
-                                    radio_row("VOI", "rating-VOI"),
-                                    radio_row("MPE", "rating-MPE"),
-                                    radio_row("Scenario", "rating-scenario"),
+                                    ],gap=0),
+                                    radio_row("VOI", group_id="rating-VOI"),
+                                    radio_row("MPE", group_id="rating-MPE"),
+                                    radio_row("Scenario", group_id="rating-scenario"),
                                     dmc.Text("Please put your feedback below:", fw=500, mt="sm"),
                                     dmc.Text(
                                         "How did the methods help you understand the prediction? Is the explanation too big/complicated?",
@@ -481,6 +482,7 @@ def update_target_node(n_clicks_list, contents, filename, card_ids):
         
     return explain_content, styles
 
+<<<<<<< HEAD
 
 def explanation_dropdown_selection():
     return dmc.Select(
@@ -595,3 +597,26 @@ placeholder_vars = [
     {"name": "Myometrium invasion", "prediction": "<50%", "probability": 62},
     {"name": "Survival", "prediction": "Yes", "probability": 96},
 ]
+=======
+# FEEDBACK CALLBACK
+@callback(
+    Output("submit-feedback","children"),
+    Input("submit-feedback", 'n_clicks'),
+    State("preferred-explanation", 'value'),
+    State('rating-VOI', 'value'),
+    State('rating-MPE', 'value'),
+    State('rating-scenario', 'value'),
+    State("feedback-text", 'value'),
+    )
+def feedback_function(n_clicks, preferred_exp, rating_voi, rating_mpe, rating_scenario, feedback_text):
+    if not n_clicks:
+        return no_update
+
+    return insertEntry(
+                    str(preferred_exp),
+                    int(rating_voi),
+                    int(rating_mpe),
+                    int(rating_scenario),
+                    str(feedback_text))
+    
+>>>>>>> 882340ba50cbdba50954c8b8ee4dd8456d1e89b9
