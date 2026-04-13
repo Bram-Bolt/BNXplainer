@@ -15,7 +15,7 @@ def insertEntry(method_pref: int, exp1_rating: int, exp2_rating: int, exp3_ratin
         return print("Invalid input")
 
     # SET CONNECTOR AND CURSOR FOR SQLITE
-    con = sqlite3.connect("feedback.db")
+    con = sqlite3.connect("src/db/feedback.db")
     cur = con.cursor()
 
     # CREATE TABLE IF NOT EXISTS
@@ -40,10 +40,16 @@ def SqliteToCsv():
 
 
 # HELPER FUNCTION
-def inputValidationDB(m,e1,e2,e3,o):
-    if(isinstance([m,e1,e2,e3],int)): pass
-    else: return True
+def inputValidationDB(m, e1, e2, e3, o):
+    # Check if m, e1, e2, e3 are all ints
+    if not all(isinstance(x, int) for x in [e1, e2, e3]):
+        print("Invalid integer")
+        return True  # Invalid input
 
-    if(isinstance(o,str)): return False
-    else: return True
+    # Check if o is a string
+    if not all(isinstance(i, str) for i in [m, o]):
+        print("Invalid string")
+        return True  # Invalid input
+
+    return False 
 
