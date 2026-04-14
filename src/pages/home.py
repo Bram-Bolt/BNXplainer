@@ -482,7 +482,6 @@ def update_target_node(n_clicks_list, contents, filename, card_ids):
         
     return explain_content, styles
 
-<<<<<<< HEAD
 
 def explanation_dropdown_selection():
     return dmc.Select(
@@ -597,7 +596,6 @@ placeholder_vars = [
     {"name": "Myometrium invasion", "prediction": "<50%", "probability": 62},
     {"name": "Survival", "prediction": "Yes", "probability": 96},
 ]
-=======
 # FEEDBACK CALLBACK
 @callback(
     Output("submit-feedback","children"),
@@ -619,4 +617,3 @@ def feedback_function(n_clicks, preferred_exp, rating_voi, rating_mpe, rating_sc
                     int(rating_scenario),
                     str(feedback_text))
     
->>>>>>> 882340ba50cbdba50954c8b8ee4dd8456d1e89b9
