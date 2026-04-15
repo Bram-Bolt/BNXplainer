@@ -228,12 +228,13 @@ def create_layout():
                                             }
                                         ),
 
-                                        html.Div(
-                                            render_variable_list(placeholder_vars),
-                                            style={"height": "300px"}
-                                        )
+                                        # html.Div(
+                                        #     render_variable_list(placeholder_vars),
+                                        #     style={"height": "300px"}
+                                        # )
                                     ],
-                                    style={"flex": 1}
+                                    style={"flex": 1,  "minHeight": 0}
+                                   
                                 )
                             ],
                             withBorder=True,
