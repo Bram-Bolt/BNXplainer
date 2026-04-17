@@ -1,6 +1,6 @@
 import dash_mantine_components as dmc
 from dash import html, dcc
-from services.inference_service import generate_inference_html
+from src.utils.inference_html import generate_inference_html
 from components.inputs import radio_row
 from components.explanation_selector import explanation_dropdown_selection
 
@@ -12,7 +12,7 @@ def create_layout():
         [
             # Include a storage component for bn-persistence
             dcc.Store(id='bn-store', storage_type='memory'),
-            
+
             dmc.AppShellHeader(
                 dmc.Group(
                 [
