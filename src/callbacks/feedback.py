@@ -1,4 +1,3 @@
-import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, no_update
 from db.database import insertEntry
 

@@ -1,5 +1,4 @@
-import dash_mantine_components as dmc
-from dash import html, dcc, callback, Input, Output, State, no_update, ctx, ALL, MATCH
+from dash import callback, Input, Output, State, no_update, ctx, ALL, MATCH
 import json 
 
 def register_slider_callbacks(app):

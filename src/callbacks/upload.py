@@ -121,7 +121,7 @@ def register_upload_callbacks(app):
                         id={"type": "node-card", "node": node_id}
                     )
                 )
-                
+                 
             if target_node:
                 try:
                     voi_scores = compute_voi(bn, target=target_node, evidence={})
