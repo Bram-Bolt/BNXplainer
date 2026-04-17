@@ -6,52 +6,9 @@ from services.feature_extraction import extract_bn_features
 from utils.file_utils import load_bn_from_base64
 from explanations.voi import compute_voi, voi_to_display
 from db.database import insertEntry
+from components.inputs import radio_row
+from components.voi import render_voi_list
 
-#helper function to create rating radio buttons for likert scale
-#label: method name shown
-#group_id: unique id so each row is independent
-def radio_row(label, group_id):
-    return dmc.Group([
-        dmc.Text(label, w=110, size="sm"),
-        dmc.RadioGroup(
-            dmc.Group([dmc.Radio(value=str(i)) for i in range(1, 6)], gap=16),
-            id=group_id,
-        ),
-    ], gap="md")
-
-def render_voi_list(voi_data):
-    if not voi_data:
-        return dmc.Text("No data available.")
-    
-    max_evpi = max(item["evpi"] for item in voi_data) if voi_data else 0
-    
-    components = []
-    for item in voi_data:
-        pct = (item["evpi"] / max_evpi) * 100 if max_evpi > 0 else 0
-        
-        components.append(
-            dmc.Box([
-                dmc.Group([
-                    dmc.Text(item["variable"], fw=500, size="sm"),
-                    dmc.Text(f"{item['evpi']:.4f} bits", size="xs", c="dimmed"),
-                ], justify="space-between", mb=4),
-                dmc.Progress(value=pct, size="md", color="blue", radius="xl")
-            ], mb="md")
-        )
-        
-    return dmc.ScrollArea(
-        dmc.Stack(components, gap="xs"),
-        style={"flex": 1, "paddingRight": "11px"},
-        offsetScrollbars=False,
-        type="hover",
-        scrollbarSize=6,
-        styles={
-            "scrollbar": {
-                "backgroundColor": "transparent",
-                "&:hover": {"backgroundColor": "transparent"}
-            }
-        },
-    )
 
 def create_layout():
 
