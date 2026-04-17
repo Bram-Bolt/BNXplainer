@@ -10,6 +10,9 @@ def create_layout():
 
     return dmc.AppShell(
         [
+            # Include a storage component for bn-persistence
+            dcc.Store(id='bn-store', storage_type='memory'),
+            
             dmc.AppShellHeader(
                 dmc.Group(
                 [
