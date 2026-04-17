@@ -1,6 +1,6 @@
 import dash_mantine_components as dmc
 from dash import html, dcc
-from src.utils.inference_html import generate_inference_html
+from utils.inference_html import generate_inference_html
 from components.inputs import radio_row
 from components.explanation_selector import explanation_dropdown_selection
 

@@ -3,8 +3,8 @@ import dash_mantine_components as dmc
 
 from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback, ctx, ALL, MATCH
 from utils.file_utils import load_bn_from_base64
-from src.utils.inference_html import generate_inference_html
-from src.utils.feature_extraction import extract_bn_features
+from utils.inference_html import generate_inference_html
+from utils.feature_extraction import extract_bn_features
 from explanations.voi import compute_voi, voi_to_display
 from components.voi import render_voi_list
 import json
