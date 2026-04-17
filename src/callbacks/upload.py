@@ -30,7 +30,6 @@ def register_upload_callbacks(app):
         Output('inference-iframe', 'srcDoc'),
         Output('loading-overlay', 'visible'),
         Output('nodes-list', 'children'),
-        #Output('explain-content', 'children'),
         Input('upload-data', 'contents'),
         State('upload-data', 'filename')
     )
@@ -121,21 +120,7 @@ def register_upload_callbacks(app):
                         id={"type": "node-card", "node": node_id}
                     )
                 )
-                 
-            # if target_node:
-            #     try:
-            #         voi_scores = compute_voi(bn, target=target_node, evidence={})
-            #         voi_data = voi_to_display(voi_scores)
-                    
-            #         explain_content = dmc.Stack([
-            #             dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
-            #             render_voi_list(voi_data)
-            #         ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
-            #     except Exception as e:
-            #         explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
-            # else:
-            #     explain_content = dmc.Text("No nodes available.")
 
-            return new_html, False, dmc.Stack(node_elements, gap="xs")#, explain_content
+            return new_html, False, dmc.Stack(node_elements, gap="xs")
 
-        return no_update, no_update, no_update#, no_update
+        return no_update, no_update, no_update
