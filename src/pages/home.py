@@ -8,7 +8,7 @@ from explanations.voi import compute_voi, voi_to_display
 from db.database import insertEntry
 from components.inputs import radio_row
 from components.voi import render_voi_list
-
+from components.explanation_selector import explanation_dropdown_selection
 
 def create_layout():
 
@@ -437,24 +437,6 @@ def update_target_node(n_clicks_list, contents, filename, card_ids):
         
     return explain_content, styles
 
-
-def explanation_dropdown_selection():
-    return dmc.Select(
-        id="explanation-selector",
-        data=[
-            {"label": "VOI Explanation", "value": "voi"},
-            {"label": "MPE Explanation", "value": "mpe"},
-            {"label": "Scenario Explanation", "value": "scenario"},
-        ],
-        value="voi",
-        size="sm",
-        style={"width": 220},
-        styles={
-            "input": {
-                "borderColor": "black",
-            }
-        }
-    )
     
 @callback(
     Output("explanation-description", "children"),
