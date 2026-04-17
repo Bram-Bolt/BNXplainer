@@ -62,7 +62,7 @@ def create_layout():
             dmc.AppShellHeader(
                 dmc.Group(
                 [
-                    dmc.Title("Explabayesianable AI", c="white", mx="auto"),
+                    dmc.Title("[APP NAME]", c="white", mx="auto"),
                     #feedback button in header opens popover feedback form
                     dmc.Popover(
                         [
