@@ -2,7 +2,7 @@ import pyagrum as gum
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.services.feature_extraction import extract_bn_features
+from src.utils.feature_extraction import extract_bn_features
 
 
 def test_extract_features_returns_expected_structure():
