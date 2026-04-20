@@ -23,6 +23,7 @@ def create_layout():
                             dmc.PopoverTarget( #popover
                                 dmc.Button(
                                     "Feedback",
+                                    id="feedback-button",
                                     variant="outline",
                                     styles={
                                         "root": {
@@ -34,47 +35,51 @@ def create_layout():
                                 ),
                             ),
                             dmc.PopoverDropdown(
-                                dmc.Stack([
-                                    dmc.Text("FEEDBACK FORM", fw=700, size="lg"),
-                                    dmc.Text(
-                                        "Please send us your thoughts, suggestions and feedback so we can improve. Thank you!",
-                                        size="sm",
-                                    ),
-                                    dmc.Text("Which explanation did you prefer?", fw=500, mt="sm"),
-                                    #dropdown to select preferred explanation method
-                                    dmc.Select(
-                                        id="preferred-explanation",
-                                        placeholder="Select an explanation...",
-                                        data=["VOI", "MPE", "Scenario"],
-                                    ),
-                                    #scale for each method
-                                    dmc.Text("How would you rate the explanation methods:", fw=500, mt="sm"),
-                                    dmc.Group([
-                                        dmc.Text("", w=105),
-                                        dmc.Text("confusing", size="xs", fw=500, w=60, c="#696969", ta="center"),
-                                        dmc.Text("", w=80),
-                                        dmc.Text("clarifying", size="xs", fw=500, w=60, c="#696969", ta="center"),
-                                    ],gap=0),
-                                    radio_row("VOI", group_id="rating-VOI"),
-                                    radio_row("MPE", group_id="rating-MPE"),
-                                    radio_row("Scenario", group_id="rating-scenario"),
-                                    dmc.Text("Please put your feedback below:", fw=500, mt="sm"),
-                                    dmc.Text(
-                                        "How did the methods help you understand the prediction? Is the explanation too big/complicated?",
-                                        size="sm",
-                                    ),
-                                    #open answer feedback
-                                    dmc.Textarea(
-                                        id="feedback-text",
-                                        minRows=3,
-                                        placeholder="Your feedback here...",
-                                    ),
-                                    dmc.Button("Submit", id="submit-feedback", color="dark", fullWidth=True),
-                                ], gap="sm"),
+                                html.Div(
+                                    id="feedback-popover-content",
+                                    children=dmc.Stack([
+                                        dmc.Text("FEEDBACK FORM", fw=700, size="lg"),
+                                        dmc.Text(
+                                            "Please send us your thoughts, suggestions and feedback so we can improve. Thank you!",
+                                            size="sm",
+                                        ),
+                                        dmc.Text("Which explanation did you prefer?", fw=500, mt="sm"),
+                                        #dropdown to select preferred explanation method
+                                        dmc.Select(
+                                            id="preferred-explanation",
+                                            placeholder="Select an explanation...",
+                                            data=["VOI", "MPE", "Scenario"],
+                                        ),
+                                        #scale for each method
+                                        dmc.Text("How would you rate the explanation methods:", fw=500, mt="sm"),
+                                        dmc.Group([
+                                            dmc.Text("", w=105),
+                                            dmc.Text("confusing", size="xs", fw=500, w=60, c="#696969", ta="center"),
+                                            dmc.Text("", w=80),
+                                            dmc.Text("clarifying", size="xs", fw=500, w=60, c="#696969", ta="center"),
+                                        ], gap=0),
+                                        radio_row("VOI", group_id="rating-VOI"),
+                                        radio_row("MPE", group_id="rating-MPE"),
+                                        radio_row("Scenario", group_id="rating-scenario"),
+                                        dmc.Text("Please put your feedback below:", fw=500, mt="sm"),
+                                        dmc.Text(
+                                            "How did the methods help you understand the prediction? Is the explanation too big/complicated?",
+                                            size="sm",
+                                        ),
+                                        #open answer feedback
+                                        dmc.Textarea(
+                                            id="feedback-text",
+                                            minRows=3,
+                                            placeholder="Your feedback here...",
+                                        ),
+                                        dmc.Button("Submit", id="submit-feedback", color="dark", fullWidth=True),
+                                    ], gap="sm"),
+                                ),
                                 p="lg",
                                 style={"width": 380, "backgroundColor": "#ece4dc"},
                             ),
                         ],
+                        id="feedback-popover",
                         position="bottom-end",
                         withArrow=True,
                         shadow="md",

@@ -1,10 +1,10 @@
 from dash import callback, Input, Output, State, no_update
 from db.database import insertEntry
-
+import dash_mantine_components as dmc
 
 def register_feedback_callbacks(app):
     @callback(
-        Output("submit-feedback","children"),
+        Output("feedback-popover-content","children"),
         Input("submit-feedback", 'n_clicks'),
         State("preferred-explanation", 'value'),
         State('rating-VOI', 'value'),
@@ -16,10 +16,14 @@ def register_feedback_callbacks(app):
         if not n_clicks:
             return no_update
 
-        return insertEntry(
+        insertEntry(
                         str(preferred_exp),
                         int(rating_voi),
                         int(rating_mpe),
                         int(rating_scenario),
                         str(feedback_text))
         
+        return dmc.Stack([
+            dmc.Text("Thank you for your feedback! ", fw=700, size="lg"),
+            dmc.Text("Your response has been submitted successfully.", size="sm",),],
+            gap="sm",)
