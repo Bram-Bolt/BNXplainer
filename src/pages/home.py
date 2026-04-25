@@ -1,7 +1,7 @@
 import dash_mantine_components as dmc
 from dash import html, dcc
+from components.feedback_helpers import likert_question
 from utils.inference_html import generate_inference_html
-from components.inputs import radio_row
 from components.explanation_selector import explanation_dropdown_selection
 
 def create_layout():
@@ -37,53 +37,82 @@ def create_layout():
                             dmc.PopoverDropdown(
                                 html.Div(
                                     id="feedback-popover-content",
-                                    children=dmc.Stack([
-                                        dmc.Text("FEEDBACK FORM", fw=700, size="lg"),
-                                        dmc.Text(
-                                            "Please send us your thoughts, suggestions and feedback so we can improve. Thank you!",
-                                            size="sm",
-                                        ),
-                                        dmc.Text("Which explanation did you prefer?", fw=500, mt="sm"),
-                                        #dropdown to select preferred explanation method
-                                        dmc.Select(
-                                            id="preferred-explanation",
-                                            placeholder="Select an explanation...",
-                                            data=["VOI", "MPE", "Scenario"],
-                                        ),
-                                        #scale for each method
-                                        dmc.Text("How would you rate the explanation methods:", fw=500, mt="sm"),
-                                        dmc.Group([
-                                            dmc.Text("", w=105),
-                                            dmc.Text("confusing", size="xs", fw=500, w=60, c="#696969", ta="center"),
-                                            dmc.Text("", w=80),
-                                            dmc.Text("clarifying", size="xs", fw=500, w=60, c="#696969", ta="center"),
-                                        ], gap=0),
-                                        radio_row("VOI", group_id="rating-VOI"),
-                                        radio_row("MPE", group_id="rating-MPE"),
-                                        radio_row("Scenario", group_id="rating-scenario"),
-                                        dmc.Text("Please put your feedback below:", fw=500, mt="sm"),
-                                        dmc.Text(
-                                            "How did the methods help you understand the prediction? Is the explanation too big/complicated?",
-                                            size="sm",
-                                        ),
-                                        #open answer feedback
-                                        dmc.Textarea(
-                                            id="feedback-text",
-                                            minRows=3,
-                                            placeholder="Your feedback here...",
-                                        ),
-                                        dmc.Button("Submit", id="submit-feedback", color="dark", fullWidth=True),
-                                    ], gap="sm"),
+                                    children=[
+                                        dmc.Stack([
+                                            dmc.Text("FEEDBACK FORM", fw=700, size="lg"),
+                                            dmc.Text(
+                                                "Please send us your thoughts, suggestions and feedback so we can improve. Thank you!",
+                                                size="sm",
+                                            ),
+
+                                             # Website navigation question (static)
+                                            dmc.Text("Did you find the website easy to navigate?", fw=500, mt="sm"),
+                                            likert_question("rating-website", "Website navigation"),
+
+                                            # Plus buttons to toggle extra feedback sections
+                                            dmc.Group([
+                                                dmc.Button("+ feedback for VOI", id="btn-voi", variant="outline", size="xs",c="dark"),
+                                                dmc.Button("+ feedback for MPE", id="btn-mpe", variant="outline", size="xs",c="dark"),
+                                                dmc.Button("+ feedback for Scenario", id="btn-scenario", variant="outline", size="xs",c="dark"),
+                                            ], mt="sm"),
+                                            
+                                            # VOI questions (hidden until toggled)
+                                            html.Div(
+                                                id="voi-feedback",
+                                                children=dmc.Stack([
+                                                    dmc.Text("VOI Feedback", fw=600, mt="sm"),
+                                                    likert_question("voi-q1", "Did you find the explanation easy to understand?"),
+                                                    likert_question("voi-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
+                                                    likert_question("voi-q3", "Did you find the explanation too complex?"),
+                                                ]),
+                                                style={"display": "none"}
+                                            ),
+
+                                            # MPE questions (hidden until toggled)
+                                            html.Div(
+                                                id="mpe-feedback",
+                                                children=dmc.Stack([
+                                                    dmc.Text("MPE Feedback", fw=600, mt="sm"),
+                                                    likert_question("mpe-q1", "Did you find the explanation easy to understand?"),
+                                                    likert_question("mpe-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
+                                                    likert_question("mpe-q3", "Did you find the explanation too complex?"),
+                                                ]),
+                                                style={"display": "none"}
+                                            ),
+
+                                            # Scenario questions (hidden until toggled)
+                                            html.Div(
+                                                id="scenario-feedback",
+                                                children=dmc.Stack([
+                                                    dmc.Text("Scenario Feedback", fw=600, mt="sm"),
+                                                    likert_question("scenario-q1", "Did you find the explanation easy to understand?"),
+                                                    likert_question("scenario-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
+                                                    likert_question("scenario-q3", "Did you find the explanation too complex?"),
+                                                ]),
+                                                style={"display": "none"}
+                                            ),
+
+                                            # open comment
+                                            dmc.Text("Please put any final feedback below:", fw=500, mt="sm"),
+                                            dmc.Textarea(
+                                                id="feedback-text",
+                                                minRows=3,
+                                                placeholder="How did the methods help you understand the prediction? Why is it too big/complicated?",
+                                            ),
+                                        ], gap="sm", style={"maxHeight": "600px", "overflowY": "auto", "paddingRight": "10px"}),
+                                    # submit button always shown
+                                    dmc.Button("Submit", id="submit-feedback", color="dark", fullWidth=True,mt="md"),
+                                    ],
                                 ),
                                 p="lg",
-                                style={"width": 380, "backgroundColor": "#ece4dc"},
+                                style={"width": 380, "backgroundColor": "#ece4dc",},
                             ),
                         ],
                         id="feedback-popover",
                         position="bottom-end",
                         withArrow=True,
                         shadow="md",
-                        closeOnClickOutside=False,
+                        closeOnClickOutside=True,
                     ),
                 ],
                 h="100%",
