@@ -1,6 +1,6 @@
 import dash_mantine_components as dmc
 from dash import html, dcc
-from components.feedback_helpers import likert_question
+from components.feedback_helpers import likert_question, likert_range
 from utils.inference_html import generate_inference_html
 from components.explanation_selector import explanation_dropdown_selection
 
@@ -41,12 +41,13 @@ def create_layout():
                                         dmc.Stack([
                                             dmc.Text("FEEDBACK FORM", fw=700, size="lg"),
                                             dmc.Text(
-                                                "Please send us your thoughts, suggestions and feedback so we can improve. Thank you!",
+                                                "Please send us your thoughts, suggestions and feedback, so we can improve. Thank you!",
                                                 size="sm",
                                             ),
 
                                              # Website navigation question (static)
                                             dmc.Text("Did you find the website easy to navigate?", fw=500, mt="sm"),
+                                            likert_range("difficult", "easy"),
                                             likert_question("rating-website", "Website navigation"),
 
                                             # Plus buttons to toggle extra feedback sections
@@ -61,6 +62,7 @@ def create_layout():
                                                 id="voi-feedback",
                                                 children=dmc.Stack([
                                                     dmc.Text("VOI Feedback", fw=600, mt="sm"),
+                                                    likert_range("not at all", "very"),
                                                     likert_question("voi-q1", "Did you find the explanation easy to understand?"),
                                                     likert_question("voi-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
                                                     likert_question("voi-q3", "Did you find the explanation too complex?"),
@@ -73,6 +75,7 @@ def create_layout():
                                                 id="mpe-feedback",
                                                 children=dmc.Stack([
                                                     dmc.Text("MPE Feedback", fw=600, mt="sm"),
+                                                    likert_range("not at all", "very"),
                                                     likert_question("mpe-q1", "Did you find the explanation easy to understand?"),
                                                     likert_question("mpe-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
                                                     likert_question("mpe-q3", "Did you find the explanation too complex?"),
@@ -85,6 +88,7 @@ def create_layout():
                                                 id="scenario-feedback",
                                                 children=dmc.Stack([
                                                     dmc.Text("Scenario Feedback", fw=600, mt="sm"),
+                                                    likert_range("not at all", "very"),
                                                     likert_question("scenario-q1", "Did you find the explanation easy to understand?"),
                                                     likert_question("scenario-q2", "Did the explanation make you feel more confident in the model’s prediction?"),
                                                     likert_question("scenario-q3", "Did you find the explanation too complex?"),
@@ -97,7 +101,7 @@ def create_layout():
                                             dmc.Textarea(
                                                 id="feedback-text",
                                                 minRows=3,
-                                                placeholder="How did the methods help you understand the prediction? Why is it too big/complicated?",
+                                                placeholder="How did the methods help you understand the prediction? Why is it understandable or complicated?",
                                             ),
                                         ], gap="sm", style={"maxHeight": "600px", "overflowY": "auto", "paddingRight": "10px"}),
                                     # submit button always shown
@@ -105,7 +109,7 @@ def create_layout():
                                     ],
                                 ),
                                 p="lg",
-                                style={"width": 380, "backgroundColor": "#ece4dc",},
+                                style={"width": 500, "backgroundColor": "#ece4dc",},
                             ),
                         ],
                         id="feedback-popover",
