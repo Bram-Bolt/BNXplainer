@@ -136,6 +136,7 @@ def create_layout():
                                     children=html.Button('Upload File', style={"width": "100%"}),
                                     style={"width": "100%"},
                                 ),
+                                dmc.Button("Submit Evidence", id="submit-evidence", fullWidth=True, mt="md"),
                                 dmc.ScrollArea(
                                     id="nodes-list",
                                     offsetScrollbars=False,
