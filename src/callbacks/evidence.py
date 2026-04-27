@@ -12,17 +12,18 @@ def register_evidence_callback(app):
         State({'type': 'node-slider', 'node': ALL, 'state': ALL}, 'id'),
     )
     def read_evidence(n_clicks: int, binary_values: list[float], nary_values: list[float], binary_ids: list[dict[str, str]], nary_ids: list[dict[str, str, str]]):
-        """_summary_
+        """This function reads evidence from the sliders when the evidence is submitted.
+        It then stores this evidence for later use in another callback.
 
         Args:
-            n_clicks (int): _description_
-            binary_values (list[float]): _description_
-            nary_values (list[float]): _description_
-            binary_ids (list[dict[str, str]]): _description_
-            nary_ids (list[dict[str, str, str]]): _description_
+            n_clicks (int): The amount of clicks of the 'submit-evidence' button this session
+            binary_values (list[float]): Values of binary sliders
+            nary_values (list[float]): Values of n-ary sliders
+            binary_ids (list[dict[str, str]]): IDs of binary sliders
+            nary_ids (list[dict[str, str, str]]): IDs of n-ary sliders
 
         Returns:
-            _type_: _description_
+            dict[str, list[float]]: Evidence, as passed through the sliders
         """
         evidence = {}
 
