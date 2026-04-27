@@ -1,7 +1,5 @@
 # callbacks/generate_image.py
-import dash_mantine_components as dmc
-import pyagrum as gum
-from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback, ctx, ALL, MATCH
+from dash import callback, Input, Output, no_update, ctx
 from utils.file_utils import load_bn_from_base64
 from utils.inference_html import generate_inference_html
 
@@ -13,14 +11,14 @@ def register_image_callback(app):
         prevent_initial_call = True
     )
     def update_image(evidence: dict[str, list], data: dict[str, str]) -> str:
-        """_summary_
+        """This function updates the image of the BayesNet in the center of the page.
 
         Args:
-            evidence (dict[str, list]): _description_
-            data (dict[str, str]): _description_
+            evidence (dict[str, list]): Evidence dictionary
+            data (dict[str, str]): Data to create the BayesNet object
 
         Returns:
-            _type_: _description_
+            str: Inference image HTML string
         """
         if not evidence and not data:
             return no_update
