@@ -11,7 +11,19 @@ def register_evidence_callback(app):
         State({'type': 'binary-slider', 'node': ALL}, 'id'),
         State({'type': 'node-slider', 'node': ALL, 'state': ALL}, 'id'),
     )
-    def read_evidence(n_clicks: int, binary_values: dict, nary_values: dict, binary_ids: dict, nary_ids: dict):
+    def read_evidence(n_clicks: int, binary_values: list[float], nary_values: list[float], binary_ids: list[dict[str, str]], nary_ids: list[dict[str, str, str]]):
+        """_summary_
+
+        Args:
+            n_clicks (int): _description_
+            binary_values (list[float]): _description_
+            nary_values (list[float]): _description_
+            binary_ids (list[dict[str, str]]): _description_
+            nary_ids (list[dict[str, str, str]]): _description_
+
+        Returns:
+            _type_: _description_
+        """
         evidence = {}
 
         # Handle binary nodes
