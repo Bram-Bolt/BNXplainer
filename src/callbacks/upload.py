@@ -9,7 +9,6 @@ def register_upload_callbacks(app):
             return dash_clientside.no_update;
         }
         """,
-        Output("loading-overlay", "visible", allow_duplicate=True),
         Input("upload-data", "contents"),
         prevent_initial_call=True,
     )
