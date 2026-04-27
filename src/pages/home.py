@@ -12,6 +12,7 @@ def create_layout():
         [
             # Include a storage component for bn-persistence
             dcc.Store(id='bn-store', storage_type='memory'),
+            dcc.Store(id='evidence-store', storage_type='memory'),
 
             dmc.AppShellHeader(
                 dmc.Group(
