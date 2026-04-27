@@ -1,9 +1,5 @@
 # callbacks/evidence.py
-import dash_mantine_components as dmc
-
-from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback, ctx, ALL, MATCH
-from utils.file_utils import load_bn_from_base64
-from utils.inference_html import generate_inference_html
+from dash import callback, Input, Output, State, no_update, ALL
 from collections import defaultdict
 
 def register_evidence_callback(app):
@@ -16,9 +12,6 @@ def register_evidence_callback(app):
         State({'type': 'node-slider', 'node': ALL, 'state': ALL}, 'id'),
     )
     def read_evidence(n_clicks: int, binary_values: dict, nary_values: dict, binary_ids: dict, nary_ids: dict):
-        if ctx.triggered_id != 'submit-evidence':
-            return no_update
-        
         evidence = {}
 
         # Handle binary nodes
@@ -35,5 +28,4 @@ def register_evidence_callback(app):
         for node, arr in dict(nary_evidence).items():
             evidence[node] = arr
             
-        print(evidence)
         return evidence
