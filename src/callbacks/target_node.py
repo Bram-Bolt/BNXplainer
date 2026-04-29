@@ -1,12 +1,5 @@
 # callbacks/target_node.py
-import dash_mantine_components as dmc
-
-from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback, ctx, ALL, MATCH
-from utils.file_utils import load_bn_from_base64
-from utils.inference_html import generate_inference_html
-from utils.feature_extraction import extract_bn_features
-from explanations.voi import compute_voi, voi_to_display
-from components.voi import render_voi_list
+from dash import callback, Input, Output, State, no_update, ctx, ALL
 import json
 
 def register_target_node_callback(app):
@@ -38,17 +31,5 @@ def register_target_node_callback(app):
                 "borderColor": "#228be6" if is_target else "black",
                 "borderWidth": "2px" if is_target else "1px"
             })
-            
-        # bn = load_bn_from_base64(data['str_bn'], data['filename'])
-        # try:
-        #     voi_scores = compute_voi(bn, target=target_node, evidence={})
-        #     voi_data = voi_to_display(voi_scores)
-            
-        #     explain_content = dmc.Stack([
-        #         dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
-        #         render_voi_list(voi_data)
-        #     ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
-        # except Exception as e:
-        #     explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
             
         return styles
