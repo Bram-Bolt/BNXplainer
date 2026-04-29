@@ -23,7 +23,9 @@ def create_layout():
             }
         ),
             
-dcc.Store(id='evidence-store', storage_type='memory' ),
+            dcc.Store(id='evidence-store', storage_type='memory'),
+
+            dcc.Store(id='target-store', storage_type='memory'),
 
             dmc.AppShellHeader(
                 dmc.Group(
