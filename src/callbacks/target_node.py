@@ -11,27 +11,25 @@ import json
 
 def register_target_node_callback(app):
     @callback(
-        Output('explain-content', 'children', allow_duplicate=True),
         Output({'type': 'node-card', 'node': ALL}, 'style'),
         Input({'type': 'node-card-wrapper', 'node': ALL}, 'n_clicks'),
-        State('upload-data', 'contents'),
-        State('upload-data', 'filename'),
+        State('bn-store', 'data'),
         State({'type': 'node-card', 'node': ALL}, 'id'),
         prevent_initial_call=True
     )
-    def update_target_node(n_clicks_list, contents, filename, card_ids):
-        if not ctx.triggered or not contents:
-            return no_update, no_update
+    def update_target_node(n_clicks_list, data, card_ids):
+        if not ctx.triggered or not data:
+            return no_update
             
         triggered_id_str = ctx.triggered[0]['prop_id'].split('.')[0]
         try:
             triggered_id = json.loads(triggered_id_str)
             target_node = triggered_id.get('node')
         except json.JSONDecodeError:
-            return no_update, no_update
+            return no_update
             
         if not target_node:
-            return no_update, no_update
+            return no_update
         
         styles = []
         for item in card_ids:
@@ -41,16 +39,16 @@ def register_target_node_callback(app):
                 "borderWidth": "2px" if is_target else "1px"
             })
             
-        bn = load_bn_from_base64(contents, filename)
-        try:
-            voi_scores = compute_voi(bn, target=target_node, evidence={})
-            voi_data = voi_to_display(voi_scores)
+        # bn = load_bn_from_base64(data['str_bn'], data['filename'])
+        # try:
+        #     voi_scores = compute_voi(bn, target=target_node, evidence={})
+        #     voi_data = voi_to_display(voi_scores)
             
-            explain_content = dmc.Stack([
-                dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
-                render_voi_list(voi_data)
-            ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
-        except Exception as e:
-            explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
+        #     explain_content = dmc.Stack([
+        #         dmc.Text(f"Target: {target_node}", fw=600, size="sm", mb="xs"),
+        #         render_voi_list(voi_data)
+        #     ], h="100%", style={"display": "flex", "flexDirection": "column", "overflow": "hidden"})
+        # except Exception as e:
+        #     explain_content = dmc.Text(f"Could not compute VOI: {str(e)}", color="red")
             
-        return explain_content, styles
+        return styles
