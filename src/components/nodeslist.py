@@ -5,9 +5,6 @@ from dash import html
 from utils.feature_extraction import extract_bn_features
 
 def get_nodelist(bn: gum.BayesNet):
-    node_names = list(bn.names())
-    target_node = node_names[-1] if node_names else None
-    
     # Extract BN features and create a list of components
     features = extract_bn_features(bn)
     node_elements = []
@@ -59,7 +56,6 @@ def get_nodelist(bn: gum.BayesNet):
                     ])
                 )
             
-        is_target = node_id == target_node
         node_elements.append(
             dmc.Card(
                 children=[
@@ -81,8 +77,8 @@ def get_nodelist(bn: gum.BayesNet):
                 mb="sm",
                 bg="#ece4dc",
                 style={
-                    "borderColor": "#228be6" if is_target else "black",
-                    "borderWidth": "2px" if is_target else "1px"
+                    "borderColor": "black",
+                    "borderWidth": "1px"
                 },
                 id={"type": "node-card", "node": node_id}
             )
