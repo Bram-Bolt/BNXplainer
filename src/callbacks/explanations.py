@@ -51,7 +51,6 @@ def register_explanation_callbacks(app):
     )
     def update_explanation(target: str, method: str, evidence: dict[str, list[float]], data: dict[str, str]):
         bn = load_bn_from_base64(data['str_bn'], data['filename'])
-        print(method)
         if method == "voi":
             try:
                 voi_scores = compute_voi(bn=bn, target=target, evidence=evidence)
