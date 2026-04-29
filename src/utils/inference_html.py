@@ -7,7 +7,7 @@ def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->
     if evidence is None:
         inference_html = gnb.getInference(bn, size="20")
     else:
-        inferenced_html = gnb.getInference(bn, size="20", evs=evidence)
+        inference_html = gnb.getInference(bn, size="20", evs=evidence)
 
     # Center visualization inside iframe and enable pan/zoom
     centered_html = f"""
