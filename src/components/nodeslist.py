@@ -1,8 +1,7 @@
 import dash_mantine_components as dmc
 import pyagrum as gum
 
-from dash import html, dcc, callback, Input, Output, State, no_update, clientside_callback, ctx, ALL, MATCH
-from utils.file_utils import load_bn_from_base64
+from dash import html
 from utils.feature_extraction import extract_bn_features
 
 def get_nodelist(bn: gum.BayesNet):
