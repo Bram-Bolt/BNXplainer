@@ -16,7 +16,8 @@ def register_upload_callbacks(app):
     @callback(
         Output('bn-store', 'data'),
         Input('upload-data', 'contents'),
-        State('upload-data', 'filename')
+        State('upload-data', 'filename'),
+        prevent_initial_call=True
     )
     def handle_uploaded_file(contents: str, filename: str):
         if not contents:

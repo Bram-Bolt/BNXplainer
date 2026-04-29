@@ -25,7 +25,8 @@ def register_image_callback(app):
         contents = data['str_bn']
         filename = data['filename']
         bn = load_bn_from_base64(contents, filename)
-        if ctx.triggered_id == 'bn-store':
+        
+        if ctx.triggered_id == 'bn-store': 
             return generate_inference_html(bn)
         elif ctx.triggered_id == 'evidence-store':
             return generate_inference_html(bn, evidence)

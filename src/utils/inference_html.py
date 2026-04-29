@@ -40,5 +40,4 @@ def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->
         </body>
     </html>
     """
-
     return centered_html

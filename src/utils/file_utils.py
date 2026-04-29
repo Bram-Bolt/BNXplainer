@@ -38,3 +38,9 @@ def load_bn_from_base64(contents: str, filename: str) -> gum.BayesNet:
         if os.path.exists(temp_path):
             os.remove(temp_path)
             
+            
+
+def load_placeholder_bn(path):
+    with open(path, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+    return f"data:application/octet-stream;base64,{encoded}"
