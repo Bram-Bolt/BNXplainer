@@ -1,5 +1,6 @@
 dash==4.0.0
 dash_mantine_components==2.6.0
+dash_bootstrap_components==2.0.4
 pyagrum==2.3.2
 IPython==9.11.0
 matplotlib-inline==0.2.1
