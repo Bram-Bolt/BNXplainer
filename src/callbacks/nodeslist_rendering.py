@@ -2,6 +2,7 @@
 from dash import callback, Input, Output, no_update
 from utils.file_utils import load_bn_from_base64
 from components.nodeslist import get_nodelist
+from components.evidence_list import get_evidence_list
 
 def register_nodeslist_rendering_callback(app):
     @callback(
@@ -14,4 +15,4 @@ def register_nodeslist_rendering_callback(app):
         
         bn = load_bn_from_base64(data['str_bn'], data['filename'])
 
-        return get_nodelist(bn)
+        return get_evidence_list(bn)
