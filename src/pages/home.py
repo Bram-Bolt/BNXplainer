@@ -1,4 +1,5 @@
 import dash_mantine_components as dmc
+import dash_bootstrap_components as dbc
 from dash import html, dcc
 from components.feedback_helpers import likert_question, likert_range
 from utils.inference_html import generate_inference_html
@@ -150,7 +151,6 @@ def create_layout():
                                     children=html.Button('Upload File', style={"width": "100%"}),
                                     style={"width": "100%"},
                                 ),
-                                dmc.Button("Submit Evidence", id="submit-evidence", fullWidth=True, mt="md"),
                                 dmc.ScrollArea(
                                     id="nodes-list",
                                     offsetScrollbars=False,
@@ -164,6 +164,7 @@ def create_layout():
                                     },
                                     style={"marginTop": "20px", "flex": 1, "marginRight": "-11px", "paddingRight": "11px"}
                                 ),
+                                dmc.Button("Submit Evidence", id="submit-evidence", fullWidth=True, mt="md"),
                             ],
                             withBorder=True,
                             p="md",
