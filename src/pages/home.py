@@ -1,17 +1,32 @@
 import dash_mantine_components as dmc
+import dash_bootstrap_components as dbc
 from dash import html, dcc
 from components.feedback_helpers import likert_question, likert_range
 from utils.inference_html import generate_inference_html
 from components.explanation_selector import explanation_dropdown_selection
+from utils.file_utils import load_placeholder_bn
 
 def create_layout():
 
-    centered_html = generate_inference_html()
+    centered_html = """<html style="height: 100%; margin: 0;">
+    </html>"""
+    
 
     return dmc.AppShell(
         [
             # Include a storage component for bn-persistence
-            dcc.Store(id='bn-store', storage_type='memory'),
+            dcc.Store(
+            id='bn-store',
+            storage_type='memory',
+            data={
+                "str_bn": load_placeholder_bn("src/example_bns/cancer.net"),
+                "filename": "cancer.net"
+            }
+        ),
+            
+            dcc.Store(id='evidence-store', storage_type='memory'),
+
+            dcc.Store(id='target-store', storage_type='memory'),
 
             dmc.AppShellHeader(
                 dmc.Group(
@@ -149,6 +164,7 @@ def create_layout():
                                     },
                                     style={"marginTop": "20px", "flex": 1, "marginRight": "-11px", "paddingRight": "11px"}
                                 ),
+                                dmc.Button("Submit Evidence", id="submit-evidence", fullWidth=True, mt="md"),
                             ],
                             withBorder=True,
                             p="md",

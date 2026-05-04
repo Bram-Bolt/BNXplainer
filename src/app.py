@@ -2,6 +2,7 @@ import warnings
 warnings.filterwarnings("ignore", module=r"pyagrum\.lib\.notebook") # Ignore Ipython warning
 from dash import Dash
 import dash_mantine_components as dmc
+import dash_bootstrap_components as dbc
 from pages.home import create_layout
 from callbacks import register_callbacks
 
@@ -9,7 +10,7 @@ from callbacks import register_callbacks
 import matplotlib
 matplotlib.use("Agg")
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # register all callbacks
 register_callbacks(app)
