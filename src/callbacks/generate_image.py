@@ -8,9 +8,10 @@ def register_image_callback(app):
         Output('inference-iframe', 'srcDoc'),
         Input('evidence-store', 'data'),
         Input('bn-store', 'data'),
+        Input('target-store', 'data'),
         prevent_initial_call = True
     )
-    def update_image(evidence: dict[str, list], data: dict[str, str]) -> str:
+    def update_image(evidence: dict[str, list], data: dict[str, str], target: str) -> str:
         """This function updates the image of the BayesNet in the center of the page.
 
         Args:
@@ -27,7 +28,9 @@ def register_image_callback(app):
         bn = load_bn_from_base64(contents, filename)
         
         if ctx.triggered_id == 'bn-store': 
-            return generate_inference_html(bn)
+            return generate_inference_html(bn, evidence=None, target=target)
         elif ctx.triggered_id == 'evidence-store':
-            return generate_inference_html(bn, evidence)
+            return generate_inference_html(bn, evidence=evidence, target=target)
+        elif ctx.triggered_id == 'target-store':
+            return generate_inference_html(bn, evidence=evidence, target=target)
         else: return no_update
