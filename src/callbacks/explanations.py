@@ -3,7 +3,9 @@ import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ALL
 from utils.file_utils import load_bn_from_base64
 from explanations.voi import compute_voi, voi_to_display
+from explanations.mpe import compute_mpe
 from components.voi import render_voi_list
+from components.mpe import render_mpe_list
 
 def register_explanation_callbacks(app):   
     @callback(
@@ -46,7 +48,7 @@ def register_explanation_callbacks(app):
         Output('explain-content', 'children'),
         Input('target-store', 'data'),
         Input("explanation-selector", "value"),
-        State('evidence-store', 'data'),
+        Input('evidence-store', 'data'),
         State('bn-store', 'data')
     )
     def update_explanation(target: str, method: str, evidence: dict[str, list[float]], data: dict[str, str]):
@@ -60,7 +62,12 @@ def register_explanation_callbacks(app):
             except Exception as e:
                 explain_content = dmc.Text(f"Could not compute VOI: {str(e)}")
         elif method == "mpe":
-            explain_content = dmc.Text("This explanation method has yet to be implemented.")
+            try:
+                mpe_scores = compute_mpe(bn=bn, evidence=evidence, include_evidence=False)
+                explain_content = render_mpe_list(mpe_scores)
+            except Exception as e:
+                explain_content = dmc.Text(f"Could not compute MPE: {str(e)}")
+            # explain_content = dmc.Text("This explanation method has yet to be implemented.")
             
         elif method == "scenario":
             explain_content = dmc.Text("This explanation method has yet to be implemented.")
