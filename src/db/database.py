@@ -20,7 +20,7 @@ def insertEntry(website_rating,
         mpe_q1, mpe_q2, mpe_q3,
         scenario_q1, scenario_q2, scenario_q3, 
         feedback_text)): 
-        return print("Invalid input")
+        return print("Invalid feedback input")
 
     # SET CONNECTOR AND CURSOR FOR SQLITE
     con = sqlite3.connect("src/db/feedback.db")
@@ -45,6 +45,8 @@ def insertEntry(website_rating,
                 feedback_text])
     
     con.commit()
+
+    
     
 
 # CONVERT SQLITE (.db) TO CSV FILE USING SHELL
@@ -58,18 +60,41 @@ def inputValidationDB(website_rating,
         mpe_q1, mpe_q2, mpe_q3,
         scenario_q1, scenario_q2, scenario_q3, 
         feedback_text):
-    # Check if all ints
-    if not all(isinstance(x, int) for x in [website_rating, 
-        voi_q1, voi_q2, voi_q3,
-        mpe_q1, mpe_q2, mpe_q3,
-        scenario_q1, scenario_q2, scenario_q3]):
-        print("Invalid integer")
-        return True  # Invalid input
+    """
+    Check if all individuals and sets are either completely filled in
+    or completely empty: 
+    if voi_q1 has a value (int), voi_q2 and voi_q3 should also be an int
+    if not filled it is np.nan (float) and thus all 3 should be float
+    """
+    is_invalid: bool = False
+    voi_inputs = [voi_q1, voi_q2, voi_q3]
+    mpe_inputs = [mpe_q1, mpe_q2, mpe_q3]
+    scenario_inputs = [scenario_q1, scenario_q2, scenario_q3]
+
+    if not isinstance(website_rating, int):
+        print("Website rating not filled in")
+        is_invalid =  True  # Invalid input
+    
+    if not all(isinstance(x, float) for x in voi_inputs):
+        if not all(isinstance(x, int) for x in voi_inputs):
+            is_invalid = True
+            print("Not all VOI fields filled in")
+            # not all fields are filled in
+    if not all(isinstance(x, float) for x in mpe_inputs):
+        if not all(isinstance(x, int) for x in mpe_inputs):
+            is_invalid = True
+            print("Not all MPE fields filled in")
+            # not all fields are filled in
+    if not all(isinstance(x, float) for x in scenario_inputs):
+        if not all(isinstance(x, int) for x in scenario_inputs):
+            is_invalid = True
+            print("Not all Scenario fields filled in")
+            # not all fields are filled in
 
     # Check if string
     if not isinstance(feedback_text,str):
-        print("Invalid string")
-        return True  # Invalid input
+        print("Invalid open comment string")
+        is_invalid =  True  # Invalid input
 
-    return False 
+    return is_invalid 
 

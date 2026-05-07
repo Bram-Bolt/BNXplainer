@@ -3,7 +3,7 @@ from db.database import insertEntry
 from components.feedback_helpers import likert_question
 import dash_mantine_components as dmc
 
-
+import numpy as np
 
 def register_feedback_callbacks(app):
     @callback(
@@ -35,7 +35,7 @@ def register_feedback_callbacks(app):
             try:
                 return int(val)
             except (TypeError, ValueError):
-                return None
+                return np.nan
 
         insertEntry(
                     safe_int(website_rating),
@@ -50,10 +50,16 @@ def register_feedback_callbacks(app):
                     safe_int(scenario_q3),
                     str(feedback_text) or "")
         
+        # VVVV this should not be here VVVV
+        # 
         return dmc.Stack([
             dmc.Text("Thank you for your feedback! ", fw=700, size="lg"),
             dmc.Text("Your response has been submitted successfully.", size="sm",),],
             gap="sm",)
+        # ^^^^^^^^
+        # instead return a boolean to call either succesfull "thank you" like this
+        # or a error message of wrong input
+        # which should be in pages/home.py
     
     # Toggle hidden questions
     @callback(
