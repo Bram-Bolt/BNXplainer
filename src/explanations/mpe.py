@@ -39,16 +39,18 @@ def compute_mpe(
 
     # Compute TRUE MPE (joint assignment)
     mpe_instantiation = ie.mpe()
+    mpe_str = str(mpe_instantiation)
+    # <Smoker:False|Cancer:False|Pollution:low|Xray:negative|Dyspnoea:False>
 
     # Convert result to readable format
     result = {}
-    for node_id in mpe_instantiation.keys():
-        variable = bn.variable(node_id)
-        node_name = variable.name()
-        state_index = mpe_instantiation[node_id]
-        state_label = variable.label(state_index)
 
-        result[node_name] = state_label
+    stripped_str = mpe_str[1:-1].split("|")
+    for s in stripped_str:
+        split_str = s.split(":")
+        node = split_str[0]
+        most_probable_state = split_str[1]
+        result[node] = most_probable_state
 
     # Optionally remove evidence variables
     if not include_evidence:
@@ -58,7 +60,7 @@ def compute_mpe(
         }
 
     # Compute joint probability of the MPE assignment
-    probability = ie.jointProbability(mpe_instantiation)
+    probability = bn.jointProbability(mpe_instantiation)
 
     return {
         "result": result,
@@ -66,21 +68,18 @@ def compute_mpe(
     }
 
 
-def mpe_to_display(mpe_output: dict) -> list:
-    """
-    Convert MPE result into a frontend-friendly format.
+# def mpe_to_display(mpe_output: dict) -> list:
+#     """
+#     Convert MPE result into a frontend-friendly format.
 
-    Parameters
-    -----
-    mpe_output : dict
-        Output from compute_mpe()
+#     Parameters
+#     -----
+#     mpe_output : dict
+#         Output from compute_mpe()
 
-    Returns
-    ------ 
-    list of dicts
-        [{"variable": ..., "state": ...}, ...]
-    """
-    return [
-        {"variable": var, "state": state}
-        for var, state in mpe_output["result"].items()
-    ]
+#     Returns
+#     ------ 
+#     list of dicts
+#         [{"variable": ..., "state": ...}, ...]
+#     """
+#     return mpe_output["result"]
