@@ -29,7 +29,6 @@ def register_evidence_callback(app):
             else:
                 node = node_id.get('node')
                 evidence[node] = val
-        print(evidence)
 
         # Deprecated Code DO NOT REMOVE UNTIL RELEASE
         # This can still be used for sliders way of handling evidence
