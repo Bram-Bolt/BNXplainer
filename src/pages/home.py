@@ -1,5 +1,6 @@
 import dash_mantine_components as dmc
 import dash_bootstrap_components as dbc
+import colours
 from dash import html, dcc
 from components.feedback_helpers import likert_question, likert_range
 from utils.inference_html import generate_inference_html
@@ -31,7 +32,7 @@ def create_layout():
             dmc.AppShellHeader(
                 dmc.Group(
                 [
-                    dmc.Title("[APP NAME]", c="white", mx="auto"),
+                    dmc.Title("[APP NAME]", c=colours.white, mx="auto"),
                     #feedback button in header opens popover feedback form
                     dmc.Popover(
                         [
@@ -42,9 +43,8 @@ def create_layout():
                                     variant="outline",
                                     styles={
                                         "root": {
-                                            "color": "#ece4dc",
-                                            "borderColor": "#ece4dc",
-                                            "--button-hover": "rgba(236, 228, 220, 0.1)",
+                                            "color": colours.beige,
+                                            "borderColor": colours.beige,
                                         }
                                     },
                                 ),
@@ -124,7 +124,7 @@ def create_layout():
                                     ],
                                 ),
                                 p="lg",
-                                style={"width": 500, "backgroundColor": "#ece4dc",},
+                                style={"width": 500, "backgroundColor": colours.beige,},
                             ),
                         ],
                         id="feedback-popover",
@@ -137,7 +137,7 @@ def create_layout():
                 h="100%",
                 px="md",
             ),
-                bg="black",
+                bg=colours.black,
             ),
 
             dmc.AppShellMain(
@@ -169,8 +169,8 @@ def create_layout():
                             withBorder=True,
                             p="md",
                             shadow="xl",
-                            bg="#ece4dc",
-                            style={"flex": 2, "borderColor": "black", "display": "flex", "flexDirection": "column", "maxHeight": "100%"},
+                            bg=colours.beige,
+                            style={"flex": 2, "borderColor": colours.black, "display": "flex", "flexDirection": "column", "maxHeight": "100%"},
                         ),
 
                         dmc.Paper(
@@ -178,7 +178,7 @@ def create_layout():
                                 dmc.LoadingOverlay(
                                     id="loading-overlay",
                                     visible=False,
-                                    overlayProps={"radius": "sm", "blur": 2, "color": "#ece4dc"},
+                                    overlayProps={"radius": "sm", "blur": 2, "color": colours.beige},
                                     zIndex=10,
                                 ),
                                 html.H3("Inference Diagram", style={"marginTop": 0}),
@@ -197,11 +197,11 @@ def create_layout():
                             withBorder=True,
                             p="md",
                             shadow="xl",
-                            bg="#ece4dc",
+                            bg=colours.beige,
                             pos="relative",
                             style={
                                 "flex": 5,
-                                "borderColor": "black",
+                                "borderColor": colours.black,
                                 "display": "flex",
                                 "flexDirection": "column",
                             },
@@ -244,8 +244,8 @@ def create_layout():
                             withBorder=True,
                             p="md",
                             shadow="xl",
-                            bg="#ece4dc",
-                            style={"flex": 2, "borderColor": "black", "display": "flex", "flexDirection": "column", "maxHeight": "100%"},
+                            bg=colours.beige,
+                            style={"flex": 2, "borderColor": colours.black, "display": "flex", "flexDirection": "column", "maxHeight": "100%"},
                         ),
                     ],
                     align="stretch",
@@ -253,7 +253,7 @@ def create_layout():
                     wrap="nowrap",
                     h="calc(100vh - 92px)",
                 ),
-                bg="#ece4dc",
+                bg=colours.beige,
             ),
         ],
         header={"height": 60},

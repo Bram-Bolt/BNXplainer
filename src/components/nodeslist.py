@@ -1,6 +1,6 @@
 import dash_mantine_components as dmc
 import pyagrum as gum
-
+import colours
 from dash import html
 from utils.feature_extraction import extract_bn_features
 
@@ -75,9 +75,9 @@ def get_nodelist(bn: gum.BayesNet):
                 withBorder=True,
                 shadow="sm",
                 mb="sm",
-                bg="#ece4dc",
+                bg=colours.beige,
                 style={
-                    "borderColor": "black",
+                    "borderColor": colours.black,
                     "borderWidth": "1px"
                 },
                 id={"type": "node-card", "node": node_id}

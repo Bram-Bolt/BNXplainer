@@ -1,5 +1,6 @@
 # VOI visualization
 import dash_mantine_components as dmc
+import colours
 
 def render_voi_list(voi_data):
     if not voi_data:
@@ -17,7 +18,7 @@ def render_voi_list(voi_data):
                     dmc.Text(item["variable"], fw=500, size="sm"),
                     dmc.Text(f"{item['evpi']:.4f} bits", size="xs", c="dimmed"),
                 ], justify="space-between", mb=4),
-                dmc.Progress(value=pct, size="md", color="blue", radius="xl")
+                dmc.Progress(value=pct, size="md", color= colours.maroon, radius="xl")
             ], mb="md")
         )
         
