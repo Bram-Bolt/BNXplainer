@@ -1,6 +1,7 @@
 # callbacks/target_node.py
 from dash import callback, Input, Output, State, no_update, ctx, ALL
 import json
+import colours
 
 def register_target_node_callback(app):
     @callback(
@@ -29,7 +30,7 @@ def register_target_node_callback(app):
         for item in card_ids:
             is_target = item['node'] == target_node
             styles.append({
-                "borderColor": "#228be6" if is_target else "black",
+                "borderColor": colours.olive if is_target else colours.black,
                 "borderWidth": "2px" if is_target else "1px"
             })
             

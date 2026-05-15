@@ -2,6 +2,7 @@
 Feedback front-end functions
 """
 import dash_mantine_components as dmc
+import colours
 
 
 # helper function to create rating radio buttons for likert scale
@@ -20,9 +21,9 @@ def likert_question(question_id,label):
 def likert_range(lowest: str,highest: str):
     return dmc.Group([
                     dmc.Text("", w=240),
-                    dmc.Text(lowest, size="xs", fw=500, w=60, c="#696969", ta="center"),
+                    dmc.Text(lowest, size="xs", fw=500, w=60, c=colours.grey, ta="center"),
                     dmc.Text("", w=80),
-                    dmc.Text(highest, size="xs", fw=500, w=60, c="#696969", ta="center"),
+                    dmc.Text(highest, size="xs", fw=500, w=60, c=colours.grey, ta="center"),
                 ],gap=0)
 
 

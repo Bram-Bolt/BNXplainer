@@ -1,4 +1,5 @@
 import dash_mantine_components as dmc
+import colours
 
 def explanation_dropdown_selection():
     return dmc.Select(
@@ -13,7 +14,7 @@ def explanation_dropdown_selection():
         style={"width": 220},
         styles={
             "input": {
-                "borderColor": "black",
+                "borderColor": colours.black,
             }
         }
     )

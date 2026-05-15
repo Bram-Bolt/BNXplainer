@@ -1,5 +1,6 @@
 import pyagrum as gum
 import pyagrum.lib.notebook as gnb
+import colours
 
 # Generate Inference HTML from Bayesian Network 
 def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->WetGrass?<-Rain?<-Cloudy?"),
@@ -8,11 +9,11 @@ def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->
     if evidence is None and target is None:
         inference_html = gnb.getInference(bn, size="20")
     elif evidence is None:
-        inference_html = gnb.getInference(bn, size="20", nodeColor={target: 0.1})
+        inference_html = gnb.getInference(bn, size="20", nodeColor={target: 0.1}, cmapNode=colours.make_node_cmap("olive"))
     elif target is None:
         inference_html = gnb.getInference(bn, size="20", evs=evidence)
     else:
-        inference_html = gnb.getInference(bn, size="20", evs=evidence, nodeColor={target: 0.1})
+        inference_html = gnb.getInference(bn, size="20", evs=evidence, nodeColor={target: 0.1}, cmapNode=colours.make_node_cmap("olive"))
 
     # Center visualization inside iframe and enable pan/zoom
     centered_html = f"""

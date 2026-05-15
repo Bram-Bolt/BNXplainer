@@ -1,5 +1,7 @@
 
 import dash_mantine_components as dmc
+import colours
+
 # Helper function to display the list of variables in the explanation method
 def render_variable_list(variables):
     if not variables:
@@ -20,7 +22,7 @@ def render_variable_list(variables):
                     dmc.Text(
                         prediction,
                         size="sm",
-                        style={"flex": 1, "color": "blue"}
+                        style={"flex": 1, "color": colours.olive}
                     ),
 
                     dmc.Group(
@@ -40,7 +42,7 @@ def render_variable_list(variables):
                 align="center",
                 style={
                     "padding": "6px 4px",
-                    "borderBottom": "1px solid #ddd"
+                    "borderBottom": f"1px solid {colours.grey}"
                 }
             )
         )
