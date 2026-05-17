@@ -44,7 +44,7 @@ def register_target_node_callback(app):
             })
 
             backgrounds.append(colours.olive_light if is_target else colours.beige)
-            button_texts.append("✓ target" if is_target else "set target")
+            button_texts.append("✓ Target" if is_target else "Set Target")
             button_variants.append("filled" if is_target else "outline")
             radio_displays.append("none" if is_target else "block")
 
