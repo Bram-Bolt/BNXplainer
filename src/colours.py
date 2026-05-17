@@ -3,6 +3,7 @@ import matplotlib.colors as mcolors
 #defining colours
 beige = "#ece4dc"
 olive = "#7D8F05"
+olive_light = "#CCD77F"
 grey  = "#626262"
 black = "black"
 white = "white"
@@ -15,7 +16,8 @@ _diagram_colours = {
     "grey":  grey,
     "black": black,
     "white": white,
-    "maroon": maroon
+    "maroon": maroon,
+    "olive_light": olive_light
 }
 
 def make_node_cmap(name: str) -> mcolors.LinearSegmentedColormap:
