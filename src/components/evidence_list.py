@@ -43,17 +43,17 @@ def get_evidence_list(bn: gum.BayesNet):
         node_buttonlist.append(
             dmc.Card(
                 children=[
-                    html.Div(
-                        dmc.Tooltip(
-                            label="Set as Target",
-                            position="right",
-                            withArrow=True,
-                            children=dmc.Text(node_id, fw=600, style={"display": "inline-block"})
-                        ),
-                        id={"type": "node-card-wrapper", "node": node_id},
-                        n_clicks=0,
-                        style={"cursor": "pointer", "marginBottom": "4px"}
-                    ),
+                    dmc.Group([
+                        dmc.Text(node_id, fw=600),
+                        dmc.Button(
+                            "set target",
+                            id={"type": "target-button", "node": node_id},
+                            size="xs",
+                            variant="outline",
+                            color=colours.olive,
+                            n_clicks=0,
+                        )
+                    ], justify="space-between", align="center", mb="xs"),
                     dmc.RadioGroup(
                         id={'type': 'evidence-radiogroup', 'node': node_id},
                         deselectable=True,
