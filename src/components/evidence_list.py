@@ -19,10 +19,9 @@ def get_evidence_list(bn: gum.BayesNet):
             # Build button, append to state_buttons
             state_buttons.append(
                 dmc.RadioCard(
-                    withBorder=True, 
+                    withBorder=False, 
                     p = 'xs',
                     mt = 'xs',
-                    className='checkboxcard-root',
                     value=state,
                     children=[
                         dmc.Group([
@@ -46,7 +45,7 @@ def get_evidence_list(bn: gum.BayesNet):
                     dmc.Group([
                         dmc.Text(node_id, fw=600),
                         dmc.Button(
-                            "set target",
+                            "Set Target",
                             id={"type": "target-button", "node": node_id},
                             size="xs",
                             variant="outline",
