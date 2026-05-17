@@ -1,10 +1,9 @@
 import pyagrum as gum
 from typing import Dict
 
-
 def compute_mpe(
     bn: gum.BayesNet,
-    evidence: Dict[str, int],
+    evidence: Dict[str, str],
     include_evidence: bool = True
 ) -> dict:
     """
@@ -17,7 +16,7 @@ def compute_mpe(
     ----------
     bn : gum.BayesNet
         The Bayesian Network.
-    evidence : Dict[str, int]
+    evidence : Dict[str, str]
         Observed variables as {variable_name: state_index}.
     include_evidence : bool
         Whether to include evidence variables in the output.
@@ -39,19 +38,14 @@ def compute_mpe(
 
     # Compute TRUE MPE (joint assignment)
     mpe_instantiation = ie.mpe()
-    mpe_str = str(mpe_instantiation)
-    # <Smoker:False|Cancer:False|Pollution:low|Xray:negative|Dyspnoea:False>
+    # Convert result to readable format using pyAgrum's built-in todict()
+    raw_result = mpe_instantiation.todict()
 
-    # Convert result to readable format
-    result = {}
-
-    stripped_str = mpe_str[1:-1].split("|")
-    for s in stripped_str:
-        split_str = s.split(":")
-        node = split_str[0]
-        most_probable_state = split_str[1]
-        result[node] = most_probable_state
-
+    result = {
+        var_name: bn.variable(var_name).label(state_index)
+        for var_name, state_index in raw_result.items()
+    }
+ 
     # Optionally remove evidence variables
     if not include_evidence:
         result = {
@@ -66,20 +60,3 @@ def compute_mpe(
         "result": result,
         "probability": round(float(probability), 6)
     }
-
-
-# def mpe_to_display(mpe_output: dict) -> list:
-#     """
-#     Convert MPE result into a frontend-friendly format.
-
-#     Parameters
-#     -----
-#     mpe_output : dict
-#         Output from compute_mpe()
-
-#     Returns
-#     ------ 
-#     list of dicts
-#         [{"variable": ..., "state": ...}, ...]
-#     """
-#     return mpe_output["result"]
