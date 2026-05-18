@@ -73,12 +73,12 @@ def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) 
     scenario = ""
 
     for i, node in enumerate(elements):
-        prob_str = prob_to_str(node.prob)
+        #prob_str = prob_to_str(node.prob)
 
         if i == len(elements) - 1 and i != 0:
-            scenario += f"and {node.name} being {node.value} is {prob_str}"
+            scenario += f"and {node.name} is {node.value}"
         else:
-            scenario += f"{node.name} being {node.value} is {prob_str}"
+            scenario += f"{node.name} is {node.value}"
 
             if i < len(elements) - 2:
                 scenario += ", "
