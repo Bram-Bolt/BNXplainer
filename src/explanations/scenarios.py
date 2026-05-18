@@ -53,8 +53,7 @@ def build_scenario_from_explanation(
         treshold = 0.5
         if node_name != target:
             elements.append(node)
-            print(node)
-            print(prob)
+
             # classify node
             if prob <= treshold:
                 fs.implausible.append(generate_implausible_sentence(node))   
