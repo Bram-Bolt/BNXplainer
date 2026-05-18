@@ -1,57 +1,123 @@
-
 import pyagrum as gum
 from dataclasses import dataclass
 
 @dataclass
+class ScenarioNode:
+    name: str
+    value: str
+    prob: float
+
+@dataclass
 class FullScenario:
-    probability: int
+    probability: float
     scenario: str
     implausible: list[str]
     supporting: list[str]
-    
-    
 
-def build_scenario_from_mpe(bn: gum.BayesNet, mpe: dict[str, str], joint_prob: int) -> FullScenario:
-    fs = FullScenario(probability=joint_prob, scenario="", implausible=[],supporting=[])
+def build_scenario_from_explanation(
+    bn: gum.BayesNet,
+    possible_explanation: dict[str, str],
+    joint_prob: float,
+    target: str,
+) -> FullScenario:
     
-    # also filter for target!
-    fs.scenario = generate_target_outcome(elements)
-    for node in mpe:
-        if node is implausible:
-            fs.implausible.append(node)
-        elif node is supporting:
-            fs.implausible.append(node)
+    fs = FullScenario(
+        probability=joint_prob,
+        scenario="",
+        implausible=[],
+        supporting=[]
+    )
+
+    ie = gum.LazyPropagation(bn)
+    ie.makeInference()
+
+    elements = []
+    for node_name, node_value in possible_explanation.items():
+        # get probability of node
+        posterior = ie.posterior(node_name)
+        var = bn.variable(node_name)
+        value_index = var.index(node_value)
+        prob = posterior[value_index]
+        
+        # build node
+        node = ScenarioNode(
+            name=node_name,
+            value=node_value,
+            prob=prob
+        )
+        
+        # classify node, 
+        # TODO: correct classifcation!!!!!!
+        # maybe add a function for this?
+        
+        treshold = 0.5
+        if node_name != target:
+            elements.append(node)
+            print(node)
+            print(prob)
+            # classify node
+            if prob <= treshold:
+                fs.implausible.append(generate_implausible_sentence(node))   
+
+            elif prob > treshold:
+                fs.supporting.append(generate_supporting_sentence(node))
+         
+        else:
+            target_node = node
+      
+    fs.scenario = generate_target_outcome(elements, target_node)
     return fs
-  
-def generate_target_outcome(elements):
-    # scenario = ""
-    # for node in elements
-       # scenario +=node.node_name being node.value is prob_to_str(node.prob) and
+
+
+def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) -> str:
+
+    scenario = ""
+
+    for i, node in enumerate(elements):
+        prob_str = prob_to_str(node.prob)
+
+        if i == len(elements) - 1 and i != 0:
+            scenario += f"and {node.name} being {node.value} is {prob_str}"
+        else:
+            scenario += f"{node.name} being {node.value} is {prob_str}"
+
+            if i < len(elements) - 2:
+                scenario += ", "
+            elif i == len(elements) - 2:
+                scenario += " "
+        
+    scenario += "\n \n"
     
-    # if node is target:
-        # scenario += then node.node_name is prob_to_str(node.prob) to be node.value
-    return "not yet implemented"
-    
-       
-# convert numerical probabilities to sring
-def prob_to_str(prob: int):
-    if prob == 100:
-        return "100%"
-    if prob > 90:
-        return "very strongly"
-    if prob > 70:
-        return "strongly"
-    return "idk yet who wants to fill this in?"
+    scenario += f" then {target.name} is {prob_to_str(target.prob)} to be {target.value}"
+    return scenario
+
+
+
+# convert numerical probabilities to string
+def prob_to_str(prob: float) -> str:
+    if prob >= 0.99:
+        return "almost certain"
+    if prob > 0.90:
+        return "very likely"
+    if prob > 0.70:
+        return "likely"
+    if prob > 0.50:
+        return "somewhat likely"
+    if prob > 0.30:
+        return "uncertain"
+    if prob > 0.10:
+        return "unlikely"
+    return "very unlikely"
+
 
 # supporting evidence
-def generate_implausible_sentence(node)-> str:
+def generate_implausible_sentence(node: ScenarioNode)-> str: 
     prob = prob_to_str(node.prob)
-    sentence = f"{node.name} being {node.value} is {prob} unlikely"
+    sentence = f"{node.name} being {node.value} is {prob}"
     return sentence
 
 # implausible elements
-def generate_supporting_sentence(node)->str:
+def generate_supporting_sentence(node: ScenarioNode)->str:
     prob = prob_to_str(node.prob)
-    sentence = f"{prob} supported by {node.name} being {node.value}"
+    sentence = f"{prob} supported by {node.name} is {node.value}"
     return sentence
-

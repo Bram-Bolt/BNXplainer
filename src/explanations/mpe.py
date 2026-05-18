@@ -1,5 +1,6 @@
 import pyagrum as gum
 from typing import Dict
+from explanations.scenarios import build_scenario_from_explanation
 
 def compute_mpe(
     bn: gum.BayesNet,
@@ -55,7 +56,11 @@ def compute_mpe(
 
     # Compute joint probability of the MPE assignment
     probability = bn.jointProbability(mpe_instantiation)
+    
+    # TODO: TEMPORARY PLEASE REMOVE AFTER TESTING
+    print(build_scenario_from_explanation(bn, result,probability, "Xray"))
 
+    
     return {
         "result": result,
         "probability": round(float(probability), 6)
