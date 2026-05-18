@@ -110,14 +110,14 @@ def prob_to_str(prob: float) -> str:
     return "very unlikely"
 
 
-# supporting evidence
+# implausible evidence
 def generate_implausible_sentence(node: ScenarioNode)-> str: 
     prob = prob_to_str(node.prob)
     sentence = f"{node.name} being {node.value} is {prob}"
     return sentence
 
-# implausible elements
+# supporting elements
 def generate_supporting_sentence(node: ScenarioNode)->str:
     prob = prob_to_str(node.prob)
-    sentence = f"{prob} supported by {node.name} is {node.value}"
+    sentence = f"{prob} supported by {node.name} being {node.value}"
     return sentence
