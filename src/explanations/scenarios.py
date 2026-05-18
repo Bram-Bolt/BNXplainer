@@ -76,18 +76,18 @@ def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) 
         #prob_str = prob_to_str(node.prob)
 
         if i == len(elements) - 1 and i != 0:
-            scenario += f"and {node.name} is {node.value}"
+            scenario += f"and {node.name} being {node.value}"
         else:
-            scenario += f"{node.name} is {node.value}"
+            scenario += f"With {node.name} being {node.value}"
 
             if i < len(elements) - 2:
                 scenario += ", "
             elif i == len(elements) - 2:
                 scenario += " "
         
-    scenario += "\n \n"
+    scenario += "\n"
     
-    scenario += f"therefore {target.name} is {prob_to_str(target.prob)} to be {target.value}."
+    scenario += f"{target.name} is {prob_to_str(target.prob)} likely to be {target.value}."
     return scenario
 
 
