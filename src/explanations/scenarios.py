@@ -87,7 +87,7 @@ def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) 
         
     scenario += "\n \n"
     
-    scenario += f" then {target.name} is {prob_to_str(target.prob)} to be {target.value}"
+    scenario += f"therefore {target.name} is {prob_to_str(target.prob)} to be {target.value}."
     return scenario
 
 
@@ -120,3 +120,25 @@ def generate_supporting_sentence(node: ScenarioNode)->str:
     prob = prob_to_str(node.prob)
     sentence = f"{prob} supported by {node.name} being {node.value}"
     return sentence
+
+
+
+def print_full_scenario(fs: FullScenario) -> None:
+    print("=== Full Scenario ===")
+    print(f"Probability : {fs.probability:.6f}")
+    print("\nScenario:")
+    print(fs.scenario)
+
+    print("\nImplausible:")
+    if fs.implausible:
+        for item in fs.implausible:
+            print(f"  - {item}")
+    else:
+        print("  None")
+
+    print("\nSupporting:")
+    if fs.supporting:
+        for item in fs.supporting:
+            print(f"  - {item}")
+    else:
+        print("  None")
