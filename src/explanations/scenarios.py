@@ -95,24 +95,24 @@ def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) 
 # convert numerical probabilities to string
 def prob_to_str(prob: float) -> str:
     if prob >= 0.99:
-        return "almost certain"
+        return "extremely strongly"
     if prob > 0.90:
-        return "very likely"
+        return "very strongly"
     if prob > 0.70:
-        return "likely"
+        return "strongly"
     if prob > 0.50:
-        return "somewhat likely"
+        return "moderately"
     if prob > 0.30:
-        return "uncertain"
+        return "weakly"
     if prob > 0.10:
-        return "unlikely"
-    return "very unlikely"
+        return "very weakly"
+    return "very weakly"
 
 
 # implausible evidence
 def generate_implausible_sentence(node: ScenarioNode)-> str: 
     prob = prob_to_str(node.prob)
-    sentence = f"{node.name} being {node.value} is {prob}"
+    sentence = f"{node.name} being {node.value} is {prob} unlikely"
     return sentence
 
 # supporting elements
