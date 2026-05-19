@@ -1,6 +1,7 @@
 import pyagrum as gum
 from typing import Dict
-from explanations.scenarios import build_scenario_from_explanation, print_full_scenario
+from explanations.scenarios.text_generation import build_scenario_from_explanation
+from explanations.scenarios.scenario_debugger import print_full_scenario
 
 def compute_mpe(
     bn: gum.BayesNet,
@@ -61,6 +62,7 @@ def compute_mpe(
     fs  = build_scenario_from_explanation(bn, result,probability, "Xray")
     print(fs)
     print_full_scenario(fs)
+
     
     return {
         "result": result,
