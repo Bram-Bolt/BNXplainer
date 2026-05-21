@@ -4,6 +4,7 @@ from dash import callback, Input, Output, State, ALL
 from utils.file_utils import load_bn_from_base64
 from explanations.voi import compute_voi, voi_to_display
 from explanations.mpe import compute_mpe
+from explanations.scenarios.scenarios import get_scenarios
 from components.voi import render_voi_list
 from components.mpe import render_mpe_list
 
@@ -67,10 +68,20 @@ def register_explanation_callbacks(app):
                 explain_content = render_mpe_list(mpe_scores)
             except Exception as e:
                 explain_content = dmc.Text(f"Could not compute MPE: {str(e)}")
-            # explain_content = dmc.Text("This explanation method has yet to be implemented.")
             
         elif method == "scenario":
-            explain_content = dmc.Text("This explanation method has yet to be implemented.")
+            try:
+                scenarios = get_scenarios(
+                    bn=bn,
+                    target=target,
+                    evidence=evidence,
+                    n_scenarios=3,
+                )
+                # TODO @frontend please make osmething here that looksg good, 
+                explain_content = dmc.Text(f"{scenarios}")
+                
+            except Exception as e:
+                explain_content = dmc.Text(f"Could not compute scenarios: {str(e)}")
 
         return_stack = dmc.Stack([
                 dmc.Text(f"Target: {target}", fw=600, size="sm", mb="xs"),
