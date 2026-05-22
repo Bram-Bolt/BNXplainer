@@ -1,5 +1,4 @@
 import dash_mantine_components as dmc
-import dash_bootstrap_components as dbc
 import colours
 from dash import html, dcc
 from components.feedback_helpers import likert_question, likert_range
