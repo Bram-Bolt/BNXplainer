@@ -109,8 +109,8 @@ def extract_bn_features(
 
     # Preserve pyAgrum's native edge and CPT order by default.
     # Uncomment these lines if you want deterministic ordering.
-    # edges.sort(key=lambda edge: (edge["source"], edge["target"]))
-    # potentials.sort(key=lambda potential: potential["node"])
+    edges.sort(key=lambda edge: (edge["source"], edge["target"]))
+    potentials.sort(key=lambda potential: potential["node"])
 
     return {
         "nodes": nodes,
