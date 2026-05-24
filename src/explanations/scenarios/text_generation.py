@@ -1,5 +1,8 @@
 from explanations.scenarios.models import FullScenario, ScenarioNode
 import pyagrum as gum
+import numpy as np
+from itertools import product
+
 def build_scenario_from_explanation(
     bn: gum.BayesNet,
     possible_explanation: dict[str, str],
@@ -41,48 +44,82 @@ def build_scenario_from_explanation(
         
         if node_name != target:
             elements.append(node)
-
-            # classify node
+            
+            # classify whether the node supports the target's value
             if supports_target(bn,node_name,node_value,target,target_value):
                 fs.supporting.append(generate_supporting_sentence(node))
 
-            elif not supports_target(bn,node_name,node_value,target,target_value):
+            if is_implausible(bn,node_name,node_value):
                 fs.implausible.append(generate_implausible_sentence(node)) 
          
         else:
             target_node = node
-
+        
+    fs.scenario = generate_target_outcome(elements, target_node)
     return fs
 
 
-def supports_target(bn:gum.BayesNet,node_name,node_value, target_node,target_value:str):
+def supports_target(bn: gum.BayesNet, node_name: str, node_value: str, target_name: str, target_value: str) -> bool:
     """
     Function that returns True if the inspected node and its state/value supports the target's
     state/value in the Scenario. Else it returns False.
     """
-    supporting_state = None
-
-    # inspected node
-    node = bn.variable(node_name)
-    target_node = bn.variable(target_node)
+    target_node = bn.variable(target_name)
     target_value_idx = target_node[target_value]
-    node_value_idx = node[node_value]
 
-    # Get the CPT for the target node
-    cpt = bn.cpt(target_node.name())
+    ie = gum.LazyPropagation(bn)
 
-    max_prob = -1
+    # Prior probability of the target value
+    ie.makeInference()
+    prior = ie.posterior(target_name)[target_value_idx]
 
-    # Iterate over the states of the parent node
-    for state_idx in range(node.domainSize()):
-        # Get the probability of Target=target_state given inspected node
-        prob = cpt[state_idx][target_value_idx]
-        if prob > max_prob:
-            max_prob = prob
-            supporting_state = state_idx
+    # Posterior probability given evidence
+    ie.setEvidence({node_name: node_value})
+    ie.makeInference()
+    posterior = ie.posterior(target_name)[target_value_idx]
+    return posterior > prior
 
-    print(f"The supporting value of {node.name()} for target={target_value} is: {node.domain()[supporting_state]}\n")
-    return supporting_state == node_value_idx
+
+def is_implausible(bn:gum.BayesNet,node_name:str,node_value) -> bool: 
+    """
+    Is the node of the network in its most probable state?
+    """
+    node = bn.variable(node_name)
+    cpt = bn.cpt(node_name)
+
+    # CASE 1: No parents
+    parents = list(bn.parents(node_name))
+
+    if len(parents) == 0:
+        probs = np.array(cpt[:])
+        max_idx = np.argmax(probs)
+
+        # Correct way to get label/state name
+        most_probable_value = node.label(int(max_idx))
+        return node_value != most_probable_value
+
+    # CASE 2: Has parents
+    # Build all parent value combinations
+    parent_vars = [bn.variable(p) for p in parents]
+    parent_domains = [
+        [var.label(i) for i in range(var.domainSize())]
+        for var in parent_vars]
+    for assignment in product(*parent_domains):
+        evidence = {
+            parent_vars[i].name(): assignment[i]
+            for i in range(len(parent_vars))}
+
+        # Conditional distribution P(node | parents=evidence)
+        probs = np.array(cpt[evidence])
+        max_idx = np.argmax(probs)
+        most_probable_value = node.label(int(max_idx))
+        
+        # If node_value is not the MAP value for this configuration
+        if node_value != most_probable_value:
+            return True
+
+    return False
+    
 
 
 def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) -> str:
@@ -128,6 +165,7 @@ def prob_to_str(prob: float) -> str:
 
 # implausible evidence
 def generate_implausible_sentence(node: ScenarioNode)-> str: 
+    prob = 1 - node.prob # because less likely is 'stronger'
     prob = prob_to_str(node.prob)
     sentence = f"{node.name} being {node.value} is {prob} unlikely"
     return sentence
