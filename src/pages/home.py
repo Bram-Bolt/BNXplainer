@@ -180,7 +180,25 @@ def create_layout():
                                     overlayProps={"radius": "sm", "blur": 2, "color": colours.beige},
                                     zIndex=10,
                                 ),
-                                html.H3("Inference Diagram", style={"marginTop": 0}),
+                                dmc.Group(
+                                    [
+                                        html.H3(id="center-panel-title", style={"marginTop": 0, "marginBottom": 0}),
+                                        dmc.Select(
+                                            id="center-view-selector",
+                                            data=[
+                                                {"value": "diagram", "label": "Inference Diagram"},
+                                                {"value": "table",   "label": "Prediction Table"},
+                                            ],
+                                            value="diagram",
+                                            w=200,
+                                            size="xs",
+                                            allowDeselect=False,
+                                        ),
+                                    ],
+                                    justify="space-between",
+                                    align="center",
+                                    mb="sm",
+                                ),
                                 html.Iframe(
                                     id='inference-iframe',
                                     srcDoc=centered_html,
@@ -190,6 +208,10 @@ def create_layout():
                                         "flex": 1,
                                         "border": "none",
                                     },
+                                ),
+                                html.Div(
+                                    id="center-view-table",
+                                    style={"display": "none", "flex": 1, "overflow": "hidden"},
                                 ),
                             ],
                             id="inference-paper",
