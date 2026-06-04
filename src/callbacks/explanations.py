@@ -7,6 +7,7 @@ from explanations.mpe import compute_mpe
 from explanations.scenarios.scenarios import get_scenarios
 from components.voi import render_voi_list
 from components.mpe import render_mpe_list
+from components.scenario import render_scenario_list
 
 def register_explanation_callbacks(app):   
     @callback(
@@ -78,7 +79,7 @@ def register_explanation_callbacks(app):
                     n_scenarios=3,
                 )
                 # TODO @frontend please make osmething here that looksg good, 
-                explain_content = dmc.Text(f"{scenarios}")
+                explain_content = render_scenario_list(scenarios)
                 
             except Exception as e:
                 explain_content = dmc.Text(f"Could not compute scenarios: {str(e)}")
