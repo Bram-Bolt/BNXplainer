@@ -1,3 +1,4 @@
+"""Initialise the callbacks package and centralise the Dash callback registration."""
 
 from .sliders import register_slider_callbacks
 from .explanations import register_explanation_callbacks
