@@ -4,7 +4,7 @@ import math
 import pytest
 import pyagrum as gum
 
-from src.explanations.mpe import (
+from explanations.mpe import (
     compute_mpe,
     mpe_to_display,
 )

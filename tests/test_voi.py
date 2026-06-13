@@ -2,8 +2,8 @@ import base64
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.utils.file_utils import load_bn_from_base64
-from src.explanations.voi import compute_voi
+from utils.file_utils import load_bn_from_base64
+from explanations.voi import compute_voi
 
 def load_cancer_bn():
     path = Path("src/example_bns/cancer.net")
