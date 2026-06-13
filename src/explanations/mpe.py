@@ -1,7 +1,5 @@
 import pyagrum as gum
 from typing import Dict
-from explanations.scenarios.text_generation import build_scenario_from_explanation
-from explanations.scenarios.scenario_debugger import print_full_scenario
 
 def compute_mpe(
     bn: gum.BayesNet,

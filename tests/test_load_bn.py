@@ -3,7 +3,7 @@ from pathlib import Path
 import pyagrum as gum
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.utils.file_utils import load_bn_from_base64
+from utils.file_utils import load_bn_from_base64
 
 
 def test_load_cancer_bn():

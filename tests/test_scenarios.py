@@ -4,8 +4,7 @@ import sys
 import pyagrum as gum
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.explanations.scenarios import most_probable_scenarios
-
+from explanations.scenarios.n_possible_explanations import most_probable_scenarios
 
 def load_cancer_bn():
     return gum.loadBN("src/example_bns/cancer.net")

@@ -3,8 +3,8 @@ from pathlib import Path
 import pyagrum as gum
 import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.utils.file_utils import load_bn_from_base64
-from src.utils.bn_update import slider_values_to_evidence, update_bn_from_sliders
+from utils.file_utils import load_bn_from_base64
+from utils.bn_update import slider_values_to_evidence, update_bn_from_sliders
 
 def load_cancer_bn():
     path = Path("src/example_bns/cancer.net")

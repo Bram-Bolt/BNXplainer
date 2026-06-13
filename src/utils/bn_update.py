@@ -1,5 +1,5 @@
 import pyagrum as gum
-from src.utils.feature_extraction import extract_bn_features
+from utils.feature_extraction import extract_bn_features
 
 
 def slider_values_to_evidence(
