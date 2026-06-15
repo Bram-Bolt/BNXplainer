@@ -5,12 +5,13 @@ def register_evidence_callback(app):
     @callback(
         Output('evidence-store', 'data'),
         Output({'type': 'evidence-radiogroup', 'node': ALL}, 'value'),
+        Output('status-evidence', 'children'),
         Input('submit-evidence', 'n_clicks'),
         Input('target-store', 'data'),
         State({'type': 'evidence-radiogroup', 'node': ALL}, 'value'),
         State({'type': 'evidence-radiogroup', 'node': ALL}, 'id'),
     )
-    def read_evidence(n_clicks: int, target: str, node_values: list[str | None], node_ids: list[dict[str, str]]):
+    def read_evidence(n_clicks, target, node_values, node_ids):
         """This function reads evidence from the radiogroup when the evidence is submitted.
         It parses and then stores this evidence for later use in other callbacks.
         Additionally, the function resets the observed state for target nodes
@@ -30,7 +31,7 @@ def register_evidence_callback(app):
 
         # Construct evidence
         for val, node_id in zip(node_values, node_ids):
-            if node_id.get('node') == target or val == None:
+            if node_id.get('node') == target or val is None:
                 node_vals.append(None)
             else:
                 node = node_id.get('node')
@@ -52,4 +53,11 @@ def register_evidence_callback(app):
 
         # for node, arr in dict(nary_evidence).items():
         #     evidence[node] = arr
-        return evidence, node_vals
+
+        if evidence:
+            ev_str = ", ".join(f"{k}={v}" for k, v in evidence.items())
+            ev_status = f"Evidence: {ev_str}"
+        else:
+            ev_status = "Evidence: none"
+
+        return evidence, node_vals, ev_status

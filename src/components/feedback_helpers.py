@@ -11,7 +11,7 @@ import colours
 
 def likert_question(question_id,label):
     return dmc.Group([
-        dmc.Text(label, w=250,size="sm"),
+        dmc.Text(label, size="sm", style={"flex": "1 1 0", "minWidth": 0}),
         dmc.RadioGroup(
             dmc.Group([dmc.Radio(value=str(i)) for i in range(1, 6)], gap=16),
             id=question_id,
@@ -20,11 +20,13 @@ def likert_question(question_id,label):
 
 def likert_range(lowest: str,highest: str):
     return dmc.Group([
-                    dmc.Text("", w=240),
-                    dmc.Text(lowest, size="xs", fw=500, w=60, c=colours.grey, ta="center"),
-                    dmc.Text("", w=80),
-                    dmc.Text(highest, size="xs", fw=500, w=60, c=colours.grey, ta="center"),
-                ],gap=0)
+        dmc.Text("", style={"flex": "1 1 0"}),
+        dmc.Text(lowest, size="xs", fw=500, c=colours.grey, ta="center", style={"width": "40px"}),
+        dmc.Text("", style={"width": "80px"}),
+        dmc.Text(highest, size="xs", fw=500, c=colours.grey, ta="center", style={"width": "40px"}),
+
+              
+    ],gap=0, wrap= "nowrap")
 
 
 

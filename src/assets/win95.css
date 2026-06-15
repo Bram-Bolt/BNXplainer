@@ -1,0 +1,266 @@
+@font-face {
+  font-family: 'W95FA';
+  src: url('/assets/W95FA.otf') format('opentype');
+}
+
+* { font-family: 'W95FA', monospace !important; }
+
+body { background-color: #ece4dc !important; }
+
+.mantine-AppShell-main { background-color: #ece4dc !important; }
+
+::selection { background-color: #5B0917; color: #ece4dc; }
+
+.mantine-Paper-root,
+.mantine-Button-root,
+.mantine-Select-input,
+.mantine-Textarea-input,
+.mantine-RadioCard-root {
+  border-radius: 0 !important;
+}
+
+/* Card: square corners only — border controlled by Python inline style */
+.mantine-Card-root {
+  border-radius: 0 !important;
+}
+
+/* ── Nav buttons hover ── */
+.nav-btn { cursor: pointer; }
+.nav-btn:hover {
+  background-color: #5B0917 !important;
+  color:            #ece4dc !important;
+  border-top:    2px solid #7a2030 !important;
+  border-left:   2px solid #7a2030 !important;
+  border-right:  2px solid #1a0a09 !important;
+  border-bottom: 2px solid #1a0a09 !important;
+}
+
+/* ── Mantine Buttons ── */
+.mantine-Button-root {
+  position: relative !important;
+  border: 1px solid #3a2820 !important;
+}
+.mantine-Button-root::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  box-shadow: inset 2px 2px 0 0 #ffffff, inset -2px -2px 0 0 #7a6560 !important;
+  pointer-events: none !important;
+}
+.mantine-Button-root:active::before {
+  box-shadow: inset 2px 2px 0 0 #7a6560, inset -2px -2px 0 0 #ffffff !important;
+}
+
+/* ══════════════════════════════════════════════════
+   TABS — Real Win95 approach.
+   Shelf = top border of the content box in Python.
+   Active tab bg matches content = visual opening.
+══════════════════════════════════════════════════ */
+.mantine-Tabs-list {
+  border-bottom:    none !important;
+  gap:              2px !important;
+  background-color: transparent !important;
+}
+
+.mantine-Tabs-tab {
+  border-radius:    0 !important;
+  background-color: #d4c9bf !important;
+  color:            #442422 !important;
+  font-weight:      normal !important;
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #7a6560 !important;
+  border-bottom: none !important;
+  margin-right:  2px !important;
+  padding:       3px 14px !important;
+}
+
+.mantine-Tabs-tab[data-active] {
+  background-color: #ece4dc !important;
+  color:            #442422 !important;
+  font-weight:      bold !important;
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #7a6560 !important;
+  border-bottom: none !important;
+}
+
+/* ── Progress bar ── */
+.mantine-Progress-root {
+  border-radius:    0 !important;
+  background-color: #d4c9bf !important;
+  border-top:    2px solid #7a6560 !important;
+  border-left:   2px solid #7a6560 !important;
+  border-right:  2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+}
+.win95-progress .mantine-Progress-section,
+.win95-progress .mantine-Progress-bar {
+  background: repeating-linear-gradient(
+    90deg, #7D8F05 0px, #7D8F05 10px, #d4c9bf 10px, #d4c9bf 12px
+  ) !important;
+  border-radius: 0 !important;
+}
+
+/* ── Select ── */
+.mantine-Select-input {
+  background-color: #f5f0ea !important;
+  border-top:    2px solid #4a3830 !important;
+  border-left:   2px solid #4a3830 !important;
+  border-right:  2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+}
+
+/* ── Textarea ── */
+.mantine-Textarea-input {
+  background-color: #f5f0ea !important;
+  border-top:    2px solid #4a3830 !important;
+  border-left:   2px solid #4a3830 !important;
+  border-right:  2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+}
+
+/* ── RadioCard ── */
+.mantine-RadioCard-root[data-checked] {
+  background-color: #5B0917 !important;
+  border-color:     #5B0917 !important;
+}
+.mantine-RadioCard-root[data-checked] * { color: #ece4dc !important; }
+
+/* ── Popover ── */
+.mantine-Popover-dropdown {
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #3a2820 !important;
+  border-bottom: 2px solid #3a2820 !important;
+}
+
+/* ── Slider ── */
+.mantine-Slider-root    { border-radius: 0 !important; }
+.mantine-Slider-bar     { background-color: #5B0917 !important; border-radius: 0 !important; }
+.mantine-Slider-track {
+  background-color: #d4c9bf !important;
+  border-top:    1px solid #7a6560 !important;
+  border-left:   1px solid #7a6560 !important;
+  border-right:  1px solid #ffffff !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+.mantine-Slider-thumb {
+  border-radius:    0 !important;
+  background-color: #ece4dc !important;
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #7a6560 !important;
+  border-bottom: 2px solid #7a6560 !important;
+  width: 10px !important; height: 18px !important;
+}
+
+/* ── Status bar ── */
+.status-item {
+  flex:          0 0 auto;
+  padding:       1px 10px;
+  border-top:    1px solid #7a6560;
+  border-left:   1px solid #7a6560;
+  border-right:  1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  color:         #442422;
+  white-space:   nowrap;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 14px; background-color: #ece4dc; }
+::-webkit-scrollbar-track {
+  background: repeating-linear-gradient(
+    90deg, #ece4dc 0px, #ece4dc 3px, #ffffff 3px, #ffffff 4px
+  );
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ece4dc;
+  border-top:    2px solid #ffffff;
+  border-left:   2px solid #ffffff;
+  border-right:  2px solid #7a6560;
+  border-bottom: 2px solid #7a6560;
+}
+::-webkit-scrollbar-button {
+  background-color: #ece4dc; height: 14px;
+  border-top:    2px solid #ffffff;
+  border-left:   2px solid #ffffff;
+  border-right:  2px solid #7a6560;
+  border-bottom: 2px solid #7a6560;
+}
+
+/* ── Win95 Radio Buttons ────────────────────────────────────────────
+   Technique from w95.css: circle 18px, dot 6x6px black.
+   Adapted: use radial-gradient on the native input since we don't
+   have their custom HTML structure. Targets all radio inputs.    ── */
+
+input[type="radio"] {
+  -webkit-appearance: none !important;
+  appearance:         none !important;
+  width:        13px !important;
+  height:       13px !important;
+  border-radius: 50% !important;
+  background:   white !important;
+  /* Sunken Win95 circle — dark top-left, light bottom-right */
+  border-top:    1px solid #636363 !important;
+  border-left:   1px solid #636363 !important;
+  border-right:  1px solid #d4c9bf !important;
+  border-bottom: 1px solid #d4c9bf !important;
+  cursor:        pointer !important;
+  flex-shrink:   0 !important;
+  margin:        0 !important;
+}
+
+/* Checked: white circle with centred black dot — their 6px dot in 18px circle
+   scaled to our 13px: dot is ~33% of diameter */
+input[type="radio"]:checked {
+  background: radial-gradient(
+    circle,
+    #000000 30%,
+    white   31%
+  ) !important;
+}
+
+/* Win95 focus: dotted outline, no glow */
+input[type="radio"]:focus {
+  outline:    1px dotted #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Hide Mantine's SVG icon since the dot is now drawn by CSS */
+.mantine-Radio-icon {
+  display: none !important;
+}
+
+/* ── Feedback method selector buttons: plain Win95 raised 3D, no hover/active effects ── */
+#btn-voi.mantine-Button-root,
+#btn-mpe.mantine-Button-root,
+#btn-scenario.mantine-Button-root {
+  background-color: #ece4dc !important;
+  color:            #442422 !important;
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #3a2820 !important;
+  border-bottom: 2px solid #3a2820 !important;
+  border-radius: 0 !important;
+}
+/* Suppress Mantine's inset shadow so our borders show cleanly */
+#btn-voi.mantine-Button-root::before,
+#btn-mpe.mantine-Button-root::before,
+#btn-scenario.mantine-Button-root::before {
+  box-shadow: none !important;
+}
+/* Keep hover identical to default — no visual change on hover */
+#btn-voi.mantine-Button-root:hover,
+#btn-mpe.mantine-Button-root:hover,
+#btn-scenario.mantine-Button-root:hover,
+#btn-voi.mantine-Button-root:active,
+#btn-mpe.mantine-Button-root:active,
+#btn-scenario.mantine-Button-root:active {
+  background-color: #ece4dc !important;
+  color:            #442422 !important;
+  border-top:    2px solid #ffffff !important;
+  border-left:   2px solid #ffffff !important;
+  border-right:  2px solid #3a2820 !important;
+  border-bottom: 2px solid #3a2820 !important;
+}
