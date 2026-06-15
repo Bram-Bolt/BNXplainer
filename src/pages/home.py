@@ -232,11 +232,12 @@ def create_layout():
                             [
                                 dmc.Group(
                                     [
-                                        html.H3(id="explanation-title", style={"marginTop": 0}),
+                                        html.H3(id="explanation-title", style={"marginTop": 0, 							"flex": 1, "minWidth": 0}),
                                         explanation_dropdown_selection(),
                                     ],
                                     justify="space-between",
                                     align="center",
+                                    wrap="nowrap",
                                 ),
                                 
                                 dmc.Text(
