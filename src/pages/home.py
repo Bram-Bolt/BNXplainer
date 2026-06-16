@@ -1,5 +1,3 @@
-"""Build the main Dash application layout and shared in-browser stores."""
-
 import dash_mantine_components as dmc
 import colours
 from dash import html, dcc
@@ -44,7 +42,7 @@ def panel_title(text: str):
             "backgroundColor": colours.blue,
             "color": colours.beige,
             "padding": "3px 8px",
-            "fontSize": "14px",
+            "fontSize": "15px",
             "fontWeight": "600",
             "marginBottom": "6px",
         }
@@ -58,9 +56,10 @@ def nav_button(label: str):
         className="nav-btn",
         style={
             "backgroundColor": colours.beige,
-            "color": colours.black,
+            "color": colours.maroon,
             "padding": "2px 12px",
-            "fontSize": "13px",
+            "fontWeight": "bold",
+            "fontSize": "14px",
             "cursor": "pointer",
             "borderTop": f"2px solid {colours.white}",
             "borderLeft": f"2px solid {colours.white}",
@@ -71,7 +70,6 @@ def nav_button(label: str):
 
 
 def create_layout():
-    """Return the app shell containing upload, evidence, diagram, explanation, and feedback UI."""
 
     centered_html = """<html style="height: 100%; margin: 0;"></html>"""
 
@@ -118,32 +116,33 @@ def create_layout():
                             ),
                             dmc.PopoverDropdown(
                                 dmc.Stack([
-                                    dmc.Text("ABOUT US", fw=700, size="xs"),
+                                    dmc.Text("ABOUT US", fw=800, size="sm"),
                                     dmc.Text(
-                                        "We are a team of nine Radboud University students taking the course Modern Software Development Techniques, organised by the Artificial Intelligence Department (Donders Institute), under the coordination of Dr. Bryan Souza. Our client Dr. Marcos Buenos, Assistant Professor at Radboud University, commissioned this project on explainable AI (XAI) for white-box models: implementation and visualisation.",
-                                        size="xs",
+                                        "We are a team of nine Radboud University students taking the course Modern Software Development Techniques, organised by the Artificial Intelligence Department (Donders Institute), under the coordination of Dr. Bryan Da Costa Souza. Our client Dr. Marcos De Paula Bueno , Assistant Professor at Radboud University, commissioned this project on explainable AI (XAI) for white-box models: implementation and visualisation.",
+                                        size="sm",
                                     ),
                                     dmc.Text(
                                         "While explanation methods are widely available for black-box models, explanation tools for Bayesian networks, which are interpretable white-box models, remain scarce. Our project's goal is to address this gap in XAI and make explanations more helpful for interpretation, using explanation methods and visualisation.",
-                                        size= "xs",),
+                                        size= "sm",),
                                     dmc.Text(
                                         "BNXplainer, lets users upload a Bayesian network, set evidence variables and select a target feature. From there, inference results are computed and visualised through an inference diagram and a prediction table. To support explainability, we implemented three explanation methods: Value of Information (VOI), Most Probable Explanation (MPE) and Scenario Analysis. The feedback function lets users rate and reflect on the explanations they receive, contributing to the ongoing improvement of BNXplainer.",
-                                        size= "xs",),
+                                        size= "sm",),
 
                                     dmc.Text(
                                         "We hope our efforts contribute to address this gap and improving how Bayesian network predictions are understood and interpeted.",
-                                        size= "xs",),
+                                        size= "sm",),
 
                                     dmc.Stack([
-                                        dmc.Text("Douae Chrifi — backend", size="xs"),
-                                        dmc.Text("Arthur Lemke — backend", size="xs"),
-                                        dmc.Text("Fatima Moalin — backend", size="xs"),
-                                        dmc.Text("Kamil Kuit — database", size="xs"),
-                                        dmc.Text("Bram Bolt — API", size="xs"),
-                                        dmc.Text("Olivier Broekman — API", size="xs"),
-                                        dmc.Text("Luc du Plessis — frontend", size="xs"),
-                                        dmc.Text("Jippe Pauwels — frontend", size="xs"),
-                                        dmc.Text("Erva Ulgen — frontend", size="xs"),
+                                        dmc.Text("Arthur Lemke — backend", size="sm"),
+                                        dmc.Text("Bram Bolt — API", size="sm"),
+                                        dmc.Text("Douae Chrifi - backend", size="sm"),
+                                        dmc.Text("Erva Ülgen — frontend", size="sm"),
+                                        dmc.Text("Fatima Moalin — backend", size="sm"),
+                                        dmc.Text("Jippe Pauwels — frontend", size="sm"),
+                                        dmc.Text("Kamil Kuit — database", size="sm"),
+                                         dmc.Text("Luc du Plessis — frontend", size="sm"),
+                                        dmc.Text("Olivier Broekman — API", size="sm"),
+                                        
                                         dmc.Group([
                                         html.Span(":) ", style={"display": "inline-block", "transform": "rotate(90deg)"})
                                         for _ in range(9)
@@ -154,7 +153,7 @@ def create_layout():
                                 ], gap="xs"),
                                         p="lg",
                                         style={
-                                            "width":           420,
+                                            "width":           700,
                                             "backgroundColor": colours.beige,
                                             "maxHeight":       "min(900px, calc(100vh - 80px))",
                                             "overflowY":       "auto",
@@ -174,32 +173,32 @@ def create_layout():
                                         html.Div([
                                             html.Div([
                                                 dmc.Stack([
-                                                    dmc.Text("FEEDBACK FORM", fw=700, size="sm"),
+                                                    dmc.Text("FEEDBACK FORM", fw=800, size="sm"),
                                                     dmc.Text(
                                                         "Please send us your thoughts, suggestions and feedback, so we can improve. Thank you!",
-                                                        size="xs", c=colours.grey,
+                                                        size="sm", c=colours.maroon,
                                                     ),
 
                                                     # website navigation question (static)
                                                     dmc.Text("Did you find the website easy to navigate?",
-                                                             fw=500, mt="sm", size="xs"),
+                                                             fw=600, mt="sm", size="sm"),
                                                     likert_range("difficult", "easy"),
                                                     likert_question("rating-website", "Website navigation"),
 
                                                     # plus buttons to toggle extra feedback sections
                                                     dmc.Group([
                                                         dmc.Button("+ feedback for VOI", id="btn-voi",
-                                                                   variant="outline", size="xs", c="dark"),
+                                                                   variant="outline", fw=700, size="xs", c="dark"),
                                                         dmc.Button("+ feedback for MPE", id="btn-mpe",
-                                                                   variant="outline", size="xs", c="dark"),
+                                                                   variant="outline",fw=700, size="xs", c="dark"),
                                                         dmc.Button("+ feedback for Scenario", id="btn-scenario",
-                                                                   variant="outline", size="xs", c="dark"),
-                                                    ], mt="sm"),
+                                                                   variant="outline",fw=700, size="xs", c="dark"),
+                                                    ], mt="xs"),
 
                                                     # VOI questions 
                                                     html.Div(id="voi-feedback", style={"display": "none"},
                                                              children=dmc.Stack([
-                                                                 dmc.Text("VOI Feedback", fw=600, mt="sm", size="xs"),
+                                                                 dmc.Text("VOI Feedback", fw=600, mt="sm", size="sm"),
                                                                  likert_range("not at all", "very"),
                                                                  likert_question("voi-q1", "Did you find the explanation easy to understand?"),
                                                                  likert_question("voi-q2", "Did the explanation make you feel more confident in the model's prediction?"),
@@ -209,7 +208,7 @@ def create_layout():
                                                     # MPE questions 
                                                     html.Div(id="mpe-feedback", style={"display": "none"},
                                                              children=dmc.Stack([
-                                                                 dmc.Text("MPE Feedback", fw=600, mt="sm", size="xs"),
+                                                                 dmc.Text("MPE Feedback", fw=600, mt="sm", size="sm"),
                                                                  likert_range("not at all", "very"),
                                                                  likert_question("mpe-q1", "Did you find the explanation easy to understand?"),
                                                                  likert_question("mpe-q2", "Did the explanation make you feel more confident in the model's prediction?"),
@@ -219,7 +218,7 @@ def create_layout():
                                                     # Scenario questions 
                                                     html.Div(id="scenario-feedback", style={"display": "none"},
                                                              children=dmc.Stack([
-                                                                 dmc.Text("Scenario Feedback", fw=600, mt="sm", size="xs"),
+                                                                 dmc.Text("Scenario Feedback", fw=600, mt="sm", size="sm"),
                                                                  likert_range("not at all", "very"),
                                                                  likert_question("scenario-q1", "Did you find the explanation easy to understand?"),
                                                                  likert_question("scenario-q2", "Did the explanation make you feel more confident in the model's prediction?"),
@@ -227,7 +226,7 @@ def create_layout():
                                                              ])),
 
                                                     # open comment
-                                                    dmc.Text("Please put any final feedback below:", fw=500, mt="sm", size="xs"),
+                                                    dmc.Text("Please put any final feedback below:", fw=600, mt="sm", size="sm"),
                                                     dmc.Textarea(
                                                         id="feedback-text",
                                                         minRows=3,
@@ -288,7 +287,7 @@ def create_layout():
                                 panel_title("Evidence & Nodes"),
                                 html.Div([
                                     dmc.Text("Bayesian Network file:",
-                                             size="xs", c=colours.grey, mb=4),
+                                             fw=700, size="sm", c=colours.grey, mb=4),
                                     dmc.Group([
                                         html.Div(
                                             "cancer.net",
@@ -296,7 +295,7 @@ def create_layout():
                                             style=sunken({
                                                 "flex":            1,
                                                 "padding":         "2px 6px",
-                                                "fontSize":        "11px",
+                                                "fontSize":        "14px",
                                                 "color":           colours.blue,
                                                 "backgroundColor": colours.border_light,
                                                 "overflow":        "hidden",
@@ -313,7 +312,7 @@ def create_layout():
                                                     "color":           colours.black,
                                                     "padding":         "2px 8px",
                                                     "cursor":          "pointer",
-                                                    "fontSize":        "11px",
+                                                    "fontSize":        "14px",
                                                     "whiteSpace":      "nowrap",
                                                     "borderTop":       f"2px solid {colours.white}",
                                                     "borderLeft":      f"2px solid {colours.white}",
@@ -345,7 +344,7 @@ def create_layout():
                                         "backgroundColor": colours.button_bg,
                                         "color":           colours.black,
                                         "cursor":          "pointer",
-                                        "fontSize":        "12px",
+                                        "fontSize":        "15px",
                                         "borderTop":       f"2px solid {colours.white}",
                                         "borderLeft":      f"2px solid {colours.white}",
                                         "borderRight":     f"2px solid {colours.shadow_darkest}",
@@ -368,7 +367,7 @@ def create_layout():
                                     html.Span(
                                         "Inference Diagram — cancer.net",
                                         id="center-panel-title",
-                                        style={"flex": 1, "fontSize": "14px",
+                                        style={"flex": 1, "fontSize": "15.5px",
                                                "fontWeight": "600"}
                                     ),
                                     dmc.Select(
@@ -377,15 +376,15 @@ def create_layout():
                                             {"value": "diagram", "label": "Diagram"},
                                             {"value": "table", "label": "Table"},
                                         ],
-                                        value="diagram", w=95, size="xs",
+                                        value="diagram", w=120, size="xs",
                                         allowDeselect=False,
                                         styles={"input": {
                                             "borderTop": f"2px solid {colours.shadow_dark}",
                                             "borderLeft": f"2px solid {colours.shadow_dark}",
                                             "borderRight": f"2px solid {colours.white}",
                                             "borderBottom": f"2px solid {colours.white}",
-                                            "borderRadius": "0", "fontSize": "10px",
-                                            "height": "18px", "minHeight": "18px",
+                                            "borderRadius": "0", "fontWeight": "bold", "fontSize": "13px",
+                                            "height": "22px", "minHeight": "20px",
                                             "padding": "1px 6px",
                                             "backgroundColor": colours.beige,
                                             "color": colours.blue,
@@ -403,7 +402,7 @@ def create_layout():
 
                                 html.Div([
                                     html.Div([
-                                        dmc.Text("Legend", size="xs", fw=600, style={
+                                        dmc.Text("Legend", size="xs", fw=700, style={
                                             "borderBottom": f"1px solid {colours.mauve}",
                                             "paddingBottom": "2px", "marginBottom": "4px",
                                         }),
@@ -476,8 +475,8 @@ def create_layout():
                                 html.Div([
                                     dmc.Text(
                                         id="explanation-description",
-                                        size="xs", mt="xs", mb="xs",
-                                        c=colours.grey,
+                                        fw=570, size="sm", mt="xs", mb="xs",
+                                        c=colours.maroon,
                                     ),
                                     html.Div(
                                         id="explain-content",

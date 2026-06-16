@@ -24,8 +24,7 @@ def get_evidence_list(bn: gum.BayesNet):
                 size="xs",
                 styles={
                     "label": {
-                        "fontWeight": "bold",
-                        "fontSize": "11px",
+                        "fontSize": "14px",
                         "paddingLeft": "6px",
                         "cursor": "pointer",},
                     "radio": {
@@ -46,12 +45,12 @@ def get_evidence_list(bn: gum.BayesNet):
                         dmc.Button(
                             "Set Target",
                             id={"type": "target-button", "node": node_id},
-                            size="xs",
+                            size="xs", 
                             variant="outline",
                             color=colours.maroon,
                             n_clicks=0,
                             styles={"root": {
-                                "height": "18px", "fontSize": "10px",
+                                "height": "18px", "fontSize": "12px",
                                 "padding": "0 6px", "borderRadius": "0",}},
                         )
                     ], justify="space-between", align="center", mb="xs"),

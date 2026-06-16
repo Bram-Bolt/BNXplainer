@@ -18,7 +18,7 @@ def likert_range(lowest: str,highest: str):
     """Return endpoint labels for a one-to-five Likert scale row."""
     return dmc.Group([
         dmc.Text("", style={"flex": "1 1 0"}),
-        dmc.Text(lowest, size="xs", fw=500, c=colours.grey, ta="center", style={"width": "40px"}),
+        dmc.Text(lowest, size="xs", fw=500, c=colours.grey, ta="left", style={"width": "60px"}),
         dmc.Text("", style={"width": "80px"}),
         dmc.Text(highest, size="xs", fw=500, c=colours.grey, ta="center", style={"width": "40px"}),
 
