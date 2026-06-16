@@ -12,12 +12,12 @@ from dash import html
 
 def _prob_to_label(p: float) -> str:
     """Convert a probability into the qualitative label shown in the UI."""
-    if p >= 0.99: return "Joint Probability: Extremely likely"
-    if p >= 0.90: return "Joint Probability: Very strongly likely"
-    if p >= 0.70: return "Joint Probability: Strongly likely"
-    if p >= 0.50: return "Joint Probability: Moderately likely"
-    if p >= 0.30: return "Joint Probability: Weakly likely"
-    if p >= 0.10: return "Joint Probability: Very weakly likely"
+    if p >= 0.99: return "Extremely likely"
+    if p >= 0.90: return "Very strongly likely"
+    if p >= 0.70: return "Strongly likely"
+    if p >= 0.50: return "Moderately likely"
+    if p >= 0.30: return "Weakly likely"
+    if p >= 0.10: return "Very weakly likely"
     return "Unlikely"
 
 
@@ -38,25 +38,32 @@ def render_scenario_list(scenarios: list[FullScenario]):
         #card content
         card_children = []
 
-        #condition
+        
+        # scenario x
+        card_children.append(
+        html.Div(
+            f"Scenario {scenarios.index(fs) + 1}:",
+            style={
+                "fontSize": "10px",
+                "fontStyle": "italic",
+                "color": colours.grey,
+                "backgroundColor": colours.beige_dark,
+                "padding": "3px 8px",
+                "marginBottom": "8px",
+                "borderTop": f"1px solid {colours.white}",
+                "borderLeft": f"1px solid {colours.white}",
+                "borderRight": f"1px solid {colours.shadow}",
+                "borderBottom": f"1px solid {colours.shadow}",
+            }
+        )
+        )
+
+        # condition
         if condition:
             card_children.append(
-            html.Div(
-                f"With Scenario {scenarios.index(fs) + 1} being {'True' if fs.probability >= 0.5 else 'False'}",
-                style={
-                    "fontSize": "10px",
-                    "fontStyle": "italic",
-                    "color": colours.grey,
-                    "backgroundColor": colours.beige_dark,
-                    "padding": "3px 8px",
-                    "marginBottom": "8px",
-                    "borderTop": f"1px solid {colours.white}",
-                    "borderLeft": f"1px solid {colours.white}",
-                    "borderRight": f"1px solid {colours.shadow}",
-                    "borderBottom": f"1px solid {colours.shadow}",
-                }
+            dmc.Text(condition, fw=500, size="sm", mb=8,
+                        style={"padding": "0 8px"})
             )
-        )
 
         #outcome sentence
         card_children.append(
@@ -68,7 +75,7 @@ def render_scenario_list(scenarios: list[FullScenario]):
         card_children.append(
                 html.Div([
                     dmc.Group([
-                        dmc.Text(prob_label, size="xs", c="dimmed"),
+                        dmc.Text(f"Joint Probability: {prob_label}", size="xs", c="dimmed"),
                         dmc.Text(f"{prob_pct:.0f}%", size="xs", c="dimmed"),
                     ], justify="space-between", mb=4),
                     dmc.Progress(value=prob_pct, size="md", color=colours.olive, radius="0"),
