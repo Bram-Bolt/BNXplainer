@@ -1,3 +1,5 @@
+"""Tests for loading uploaded Bayesian network payloads."""
+
 import base64
 from pathlib import Path
 import pyagrum as gum
@@ -7,6 +9,7 @@ from utils.file_utils import load_bn_from_base64
 
 
 def test_load_cancer_bn():
+    """A base64-encoded cancer network loads as a pyAgrum BayesNet."""
     path = Path("src/example_bns/cancer.net")
 
     encoded = base64.b64encode(path.read_bytes()).decode("utf-8")

@@ -1,6 +1,12 @@
-# callbacks/explanations.py
+"""Control the right-panel explanation UI.
+
+Supports value of information, most probable explanation, and scenario
+explanation modes. The callbacks read the uploaded Bayes net, selected target
+node, submitted evidence, and selected explanation type.
+"""
+
 import dash_mantine_components as dmc
-from dash import callback, Input, Output, State, ALL
+from dash import callback, Input, Output, State
 from utils.file_utils import load_bn_from_base64
 from explanations.voi import compute_voi, voi_to_display
 from explanations.mpe import compute_mpe
@@ -9,12 +15,14 @@ from components.voi import render_voi_list
 from components.mpe import render_mpe_list
 from components.scenario import render_scenario_list
 
-def register_explanation_callbacks(app):   
+def register_explanation_callbacks(app):
+    """Register callbacks for text, title, and rendered explanation content."""
     @callback(
         Output("explanation-description", "children"),
         Input("explanation-selector", "value"),
     )
     def update_explanation_description(method):
+        """Update the explanation description for the selected explanation method."""
         if method == "voi":
             return (
                 "Value of Information indicates what variables are most useful "
@@ -39,6 +47,7 @@ def register_explanation_callbacks(app):
     )
 
     def update_explanation_title(method):
+        """Update the explanation title for the selected explanation method."""
         titles = {
             "voi": "Explanation (VOI)",
             "mpe": "Explanation (MPE)",
@@ -53,7 +62,20 @@ def register_explanation_callbacks(app):
         Input('evidence-store', 'data'),
         State('bn-store', 'data')
     )
-    def update_explanation(target: str, method: str, evidence: dict[str, list[float]], data: dict[str, str]):
+    def update_explanation(target: str, method: str, evidence: dict[str, str], data: dict[str, str]):
+        """Render the explanation content for the selected method and Bayesian network state.
+
+        Args:
+            target: Selected target node name from target-store.
+            method: Selected explanation method, such as "voi", "mpe", or "scenario".
+            evidence: Submitted evidence mapping from evidence-store.
+            data: Uploaded Bayes net store data containing "str_bn" and "filename".
+
+        Returns:
+            A Dash Mantine stack containing the selected target and rendered
+            explanation output. If computation fails, the explanation output is
+            an error text component.
+        """
         bn = load_bn_from_base64(data['str_bn'], data['filename'])
         if method == "voi":
             try:
@@ -78,7 +100,7 @@ def register_explanation_callbacks(app):
                     evidence=evidence,
                     n_scenarios=3,
                 )
-                # TODO @frontend please make osmething here that looksg good, 
+                # TODO @frontend please make something here that looks good.
                 explain_content = render_scenario_list(scenarios)
                 
             except Exception as e:

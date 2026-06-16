@@ -1,4 +1,5 @@
-# components/scenario.py
+"""Render scenario explanation objects for the right panel."""
+
 import dash_mantine_components as dmc
 import colours
 from explanations.scenarios.models import FullScenario
@@ -6,6 +7,7 @@ from dash import html
 
 
 def _prob_to_label(p: float) -> str:
+    """Convert a probability into the qualitative label shown in the UI."""
     if p >= 0.99: return "Extremely likely"
     if p >= 0.90: return "Very strongly likely"
     if p >= 0.70: return "Strongly likely"
@@ -16,6 +18,7 @@ def _prob_to_label(p: float) -> str:
 
 
 def render_scenario_list(scenarios: list[FullScenario]):
+    """Render scenario text, probability, supporting notes, and warnings."""
     if not scenarios:
         return dmc.Text("No scenarios could be generated.", size="sm", c="dimmed")
 

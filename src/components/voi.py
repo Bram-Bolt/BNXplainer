@@ -1,9 +1,11 @@
-# VOI visualization
+"""Render value-of-information scores for the right panel."""
+
 import dash_mantine_components as dmc
 import colours
 from dash import html
 
 def render_voi_list(voi_data):
+    """Render VOI data sorted upstream as a relative EVPI progress bars."""
     if not voi_data:
         return dmc.Text("No data available.")
     

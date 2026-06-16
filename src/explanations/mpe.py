@@ -1,3 +1,5 @@
+"""Compute most probable explanation assignments with pyAgrum."""
+
 import pyagrum as gum
 from typing import Dict
 
@@ -9,25 +11,17 @@ def compute_mpe(
     """
     Compute the Most Probable Explanation (MPE).
 
-    Finds the most probable joint assignment of ALL variables
-    given the evidence.
+    Finds the most probable joint assignment of all variables given the
+    evidence, then converts state indexes to readable state labels.
 
-    Parameters
-    ----------
-    bn : gum.BayesNet
-        The Bayesian Network.
-    evidence : Dict[str, str]
-        Observed variables as {variable_name: state_index}.
-    include_evidence : bool
-        Whether to include evidence variables in the output.
+    Args:
+        bn: Bayesian network to explain.
+        evidence: Observed variables accepted by pyAgrum's evidence API.
+        include_evidence: Whether to keep observed variables in the result.
 
-    Return
-    -------
-    dict
-        {
-            "result": {variable_name: state_label},
-            "probability": float
-        }
+    Returns:
+        Dictionary with ``result`` mapping variable names to state labels and
+        ``probability`` containing the rounded joint probability.
     """
 
     # Create inference engine

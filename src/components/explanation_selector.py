@@ -1,3 +1,5 @@
+"""Render the explanation-method selector used by the right-panel callbacks."""
+
 import dash_mantine_components as dmc
 
 def explanation_selection():

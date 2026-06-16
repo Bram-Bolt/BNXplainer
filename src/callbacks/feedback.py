@@ -1,3 +1,5 @@
+"""Handle feedback form submission and optional feedback section visibility."""
+
 from dash import callback, Input, Output, State, no_update
 from db.database import insertEntry
 from components.feedback_helpers import likert_question, thank_you_message
@@ -7,6 +9,7 @@ import colours
 import numpy as np
 
 def register_feedback_callbacks(app):
+    """Register callbacks that submit feedback and toggle optional form sections."""
     @callback(
         Output("feedback-popover-content","children"),
         Output("feedback-error", "children"), 
@@ -29,11 +32,19 @@ def register_feedback_callbacks(app):
         mpe_q1, mpe_q2, mpe_q3,
         scenario_q1, scenario_q2, scenario_q3, 
         feedback_text):
-        
+        """Save submitted feedback and replace the form with a thank-you message.
+
+        The submit button triggers this callback. Rating values are read from the
+        feedback form, converted from radio-button strings to integers, and passed to
+        the SQLite feedback database helper. Missing optional section values are
+        stored as NaN so validation can distinguish complete and incomplete sections.
+        """
+
         if not n_clicks:
             return no_update, no_update
         
         def safe_int(val):
+            """Convert a submitted radio-button value to int, or NaN when missing."""
             try:
                 return int(val)
             except (TypeError, ValueError):

@@ -1,4 +1,5 @@
-# callbacks/generate_image.py
+"""Update the centre-panel inference diagram and prediction table."""
+
 from dash import callback, Input, Output, no_update, ctx
 from utils.file_utils import load_bn_from_base64
 from utils.inference_html import generate_inference_html
@@ -6,6 +7,7 @@ from components.variable_table import build_variable_data, render_variable_list
 import colours
 
 def register_image_callback(app):
+    """Register callbacks for the centre-panel network views."""
     @callback(
         Output('inference-iframe', 'srcDoc'),
         Input('evidence-store', 'data'),

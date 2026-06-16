@@ -1,7 +1,10 @@
+"""Synchronise legacy node probability sliders and displayed percentage labels."""
+
 from dash import callback, Input, Output, State, no_update, ctx, ALL, MATCH
 import json 
 
 def register_slider_callbacks(app):
+    """Register callbacks that keep node probability slider displays normalised."""
     @callback(
         Output({'type': 'binary-text', 'node': MATCH, 'idx': ALL}, 'children'),
         Input({'type': 'binary-slider', 'node': MATCH}, 'value'),
@@ -9,6 +12,7 @@ def register_slider_callbacks(app):
         prevent_initial_call=True
     )
     def sync_binary_slider(value, ids):
+        """Update binary-state percentage labels so the two values sum to 100%."""
         texts = []
         for item in ids:
             idx = item['idx']
@@ -24,6 +28,7 @@ def register_slider_callbacks(app):
         prevent_initial_call=True
     )
     def sync_multi_sliders(values, ids):
+        """Rescale multi-state sliders so one node's percentages stay normalised."""
         if not ctx.triggered:
             return no_update, no_update
             

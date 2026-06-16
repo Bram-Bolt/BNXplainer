@@ -1,10 +1,12 @@
+"""Load Bayesian network files from Dash upload payloads or local fixtures."""
+
 import os
 import base64
 import tempfile
 import pyagrum as gum
 
-# get loaded BN from base64
 def load_bn_from_base64(contents: str, filename: str) -> gum.BayesNet:
+    """Load a pyAgrum Bayes net from Dash base64 upload contents."""
     _, extension = os.path.splitext(filename)
     extension = extension.lower().lstrip(".") # get extension
 
@@ -41,6 +43,7 @@ def load_bn_from_base64(contents: str, filename: str) -> gum.BayesNet:
             
 
 def load_placeholder_bn(path):
+    """Return a local Bayes net file encoded as a Dash upload-style data URL."""
     with open(path, "rb") as f:
         encoded = base64.b64encode(f.read()).decode()
     return f"data:application/octet-stream;base64,{encoded}"

@@ -1,6 +1,10 @@
+"""Generate ranked scenario assignments from a Bayesian network."""
+
 import pyagrum as gum
 from itertools import product
+
 def _default_scenario_nodes(bn: gum.BayesNet, target: str) -> list[str]:
+    """Return the target's direct parents plus the target itself."""
     target_id = bn.idFromName(target)
     parents = [
         bn.variable(parent_id).name()
@@ -10,6 +14,7 @@ def _default_scenario_nodes(bn: gum.BayesNet, target: str) -> list[str]:
 
 
 def _unique_nodes(nodes: list[str]) -> list[str]:
+    """Return nodes with duplicates removed while preserving input order."""
     unique = []
     for node in nodes:
         if node not in unique:
@@ -24,6 +29,7 @@ def _target_probability_given_scenario(
     evidence: dict[str, str | int | bool | list[float]],
     assignment: dict[str, str],
 ) -> float:
+    """Return P(target_state | evidence and non-target scenario assignments)."""
     conditional_evidence = dict(evidence)
     for node, state in assignment.items():
         if node != target:
@@ -50,6 +56,8 @@ def most_probable_scenarios(
 
     By default, a scenario contains the direct parents of the target and the
     target itself. The returned probabilities are P(scenario_nodes | evidence).
+    Each result contains rank, assignment, joint probability, target name,
+    target state, and target-state probability under the scenario conditions.
     """
     if n_scenarios <= 0:
         return []
@@ -105,4 +113,3 @@ def most_probable_scenarios(
         for rank, (probability, assignment)
         in enumerate(scored_scenarios[:n_scenarios], start=1)
     ]
-

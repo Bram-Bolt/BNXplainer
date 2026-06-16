@@ -1,4 +1,6 @@
 
+"""Tests for most probable explanation computation and display conversion."""
+
 import math
 
 import pytest

@@ -1,15 +1,11 @@
-"""
-Feedback front-end functions
-"""
+"""Build reusable feedback form controls."""
+
 import dash_mantine_components as dmc
 import colours
 
 
-# helper function to create rating radio buttons for likert scale
-# label: method name shown
-# question_id: unique id 
-
 def likert_question(question_id,label):
+    """Return a labelled one-to-five radio group for a feedback question."""
     return dmc.Group([
         dmc.Text(label, size="sm", style={"flex": "1 1 0", "minWidth": 0}),
         dmc.RadioGroup(
@@ -19,6 +15,7 @@ def likert_question(question_id,label):
     ], align="center")
 
 def likert_range(lowest: str,highest: str):
+    """Return endpoint labels for a one-to-five Likert scale row."""
     return dmc.Group([
         dmc.Text("", style={"flex": "1 1 0"}),
         dmc.Text(lowest, size="xs", fw=500, c=colours.grey, ta="center", style={"width": "40px"}),
@@ -42,6 +39,5 @@ thank_you_message = dmc.Stack([
     "padding": "1.5rem",
     "textAlign": "center"
 })
-
 
 

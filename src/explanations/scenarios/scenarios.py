@@ -1,3 +1,5 @@
+"""Build text-ready scenario explanation objects from ranked assignments."""
+
 from dataclasses import dataclass
 from itertools import product
 from explanations.scenarios.n_possible_explanations import most_probable_scenarios
@@ -5,6 +7,7 @@ from explanations.scenarios.text_generation import build_scenario_from_explanati
 import pyagrum as gum
 
 def get_scenarios(bn, target: str, evidence, n_scenarios):
+    """Return FullScenario objects for the top probable target scenarios."""
     expls = most_probable_scenarios(
             bn=bn,
             target=target,

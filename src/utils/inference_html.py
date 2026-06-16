@@ -1,3 +1,5 @@
+"""Render pyAgrum inference diagrams as embeddable iframe HTML."""
+
 import pyagrum as gum
 import pyagrum.lib.notebook as gnb
 import colours

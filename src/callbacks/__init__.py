@@ -1,3 +1,4 @@
+"""Initialise the callbacks package and centralise the Dash callback registration."""
 
 from .sliders import register_slider_callbacks
 from .explanations import register_explanation_callbacks
@@ -9,6 +10,7 @@ from .evidence import register_evidence_callback
 from .generate_image import register_image_callback
 
 def register_callbacks(app):
+    """Register all Dash callbacks on the provided app instance."""
     register_slider_callbacks(app)
     register_explanation_callbacks(app)
     register_feedback_callbacks(app)

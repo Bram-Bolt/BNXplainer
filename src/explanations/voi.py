@@ -1,10 +1,12 @@
+"""Compute and format value-of-information explanation scores."""
+
 import math
 import pyagrum as gum
 from typing import Optional
 
 
 def entropy(probabilities: list) -> float:
-    """Calculate entropy of list of floats
+    """Calculate entropy for a probability distribution.
 
     Args:
         probabilities (list): List of probabilities of distinct events
@@ -21,16 +23,17 @@ def compute_voi(
     evidence: dict,
     candidates: Optional[list] = None
 ) -> dict:
-    """Value of Information explanation method
+    """Rank unobserved candidate variables by expected information gain.
 
     Args:
-        bn (gum.BayesNet): Input Bayesian Network
-        target (str): Name of target variable
-        evidence (dict): Dictionary of existing evidence
-        candidates (Optional[list], optional): Optional variable, list of candidate states. Defaults to None.
+        bn: Bayesian network used for inference.
+        target: Name of the target variable whose uncertainty is measured.
+        evidence: Existing observed variables to condition on.
+        candidates: Optional variable names to score. Defaults to all
+            unobserved non-target variables.
 
     Returns:
-        dict: sorted dictionary of states and their VOI scores.
+        Variables mapped to VOI scores, sorted from highest to lowest score.
     """
     # Instantiate variables
     ie = gum.LazyPropagation(bn)
@@ -82,13 +85,13 @@ def compute_voi(
 
 
 def voi_to_display(voi_scores: dict) -> list:
-    """Transform VOI scores to proper format for displaying
+    """Transform VOI scores into dictionaries consumed by the VOI component.
 
     Args:
-        voi_scores (dict): VOI scores from compute_voi() method
+        voi_scores: VOI scores from ``compute_voi``.
 
     Returns:
-        list: return voi_scores in proper format
+        Display rows with variable name, rounded EVPI value, and label text.
     """
     return [
         {

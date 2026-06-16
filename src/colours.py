@@ -1,3 +1,5 @@
+"""Define shared colour constants and pyAgrum-compatible colour maps."""
+
 import matplotlib.colors as mcolors
 
 #defining colours
@@ -48,6 +50,7 @@ _diagram_colours = {
 }
 
 def make_node_cmap(name: str) -> mcolors.LinearSegmentedColormap:
+    """Return a flat matplotlib colour map for a named diagram colour."""
     hex_color = _diagram_colours[name]
     #same colour twice= flat gradient, so pyagrum always gets exactly the colour
     return mcolors.LinearSegmentedColormap.from_list(name, [hex_color, hex_color])

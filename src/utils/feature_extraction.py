@@ -1,3 +1,5 @@
+"""Extract serialisable node, edge, CPT, and posterior data from Bayes nets."""
+
 import pyagrum as gum
 
 
@@ -13,7 +15,7 @@ def extract_bn_features(
     bn:
         The Bayesian network to inspect.
     evidence:
-        Optional evidence to apply before computing posterior (probility of a variable taking evidence into account) probabilities.
+        Optional evidence to apply before computing posterior probabilities.
         Examples:
             {"Smoker": "True"}
             {"Pollution": 0}

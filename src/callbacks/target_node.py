@@ -1,9 +1,11 @@
-# callbacks/target_node.py
+"""Handle target-node selection and target styling in the node list."""
+
 from dash import callback, Input, Output, State, no_update, ctx, ALL
 import json
 import colours
 
 def register_target_node_callback(app):
+    """Register the callback that stores and highlights the selected target node."""
     @callback(
         Output({'type': 'node-card', 'node': ALL}, 'style'),
         Output({'type': 'node-card', 'node': ALL}, 'bg'),
@@ -18,6 +20,7 @@ def register_target_node_callback(app):
         prevent_initial_call=True
     )
     def update_target_node(n_clicks_list, data, card_ids):
+        """Update node card styles and target-store after a target button click."""
         if not ctx.triggered or not data:
             return (no_update,) * 7
             

@@ -1,3 +1,5 @@
+"""Translate legacy slider values into pyAgrum evidence and updated BN features."""
+
 import pyagrum as gum
 from utils.feature_extraction import extract_bn_features
 
