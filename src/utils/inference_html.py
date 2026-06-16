@@ -27,6 +27,7 @@ def _apply_colour_config():
 def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->WetGrass?<-Rain?<-Cloudy?"),
                             target: str = None, 
                             evidence: dict[str, str | int | list[float]] = None) -> str:
+    """Return centred, pan-zoomable inference HTML for a Bayesian network."""
     _apply_colour_config()
 
     if evidence is None and target is None:
@@ -97,3 +98,4 @@ def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->
     </html>
     """
     return centered_html
+    
