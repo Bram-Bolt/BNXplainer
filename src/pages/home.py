@@ -42,7 +42,7 @@ def panel_title(text: str):
             "backgroundColor": colours.blue,
             "color": colours.beige,
             "padding": "3px 8px",
-            "fontSize": "11px",
+            "fontSize": "14px",
             "fontWeight": "600",
             "marginBottom": "6px",
         }
@@ -90,19 +90,75 @@ def create_layout():
 
             #---- header -----
             dmc.AppShellHeader(
-                html.Div([
+              html.Div([
+
+                html.Img(
+                    src="/assets/header-logo.PNG",
+                    style={"height": "60px", "marginRight": "4px"},
+                ),
+
                     html.Div(
-                        "bnxplainer",
+                        "BNXplainer",
                         style={
                             "color": colours.beige,
-                            "fontSize": "15px",
+                            "fontSize": "25px",
                             "fontWeight": "bold",
                             "flex": 1,
                             "textAlign": "center",
                         }
                     ),
                     html.Div([
-                        nav_button("About us"),
+
+                        dmc.Popover([
+                            dmc.PopoverTarget(
+                                 nav_button("About us"),
+                            ),
+                            dmc.PopoverDropdown(
+                                dmc.Stack([
+                                    dmc.Text("ABOUT US", fw=700, size="xs"),
+                                    dmc.Text(
+                                        "We are a team of nine Radboud University students taking the course Modern Software Development Techniques, organised by the Artificial Intelligence Department (Donders Institute), under the coordination of Dr. Bryan Souza. Our client Dr. Marcos Buenos, Assistant Professor at Radboud University, commissioned this project on explainable AI (XAI) for white-box models: implementation and visualisation.",
+                                        size="xs",
+                                    ),
+                                    dmc.Text(
+                                        "While explanation methods are widely available for black-box models, explanation tools for Bayesian networks, which are interpretable white-box models, remain scarce. Our project's goal is to address this gap in XAI and make explanations more helpful for interpretation, using explanation methods and visualisation.",
+                                        size= "xs",),
+                                    dmc.Text(
+                                        "BNXplainer, lets users upload a Bayesian network, set evidence variables and select a target feature. From there, inference results are computed and visualised through an inference diagram and a prediction table. To support explainability, we implemented three explanation methods: Value of Information (VOI), Most Probable Explanation (MPE) and Scenario Analysis. The feedback function lets users rate and reflect on the explanations they receive, contributing to the ongoing improvement of BNXplainer.",
+                                        size= "xs",),
+
+                                    dmc.Text(
+                                        "We hope our efforts contribute to address this gap and improving how Bayesian network predictions are understood and interpeted.",
+                                        size= "xs",),
+
+                                    dmc.Stack([
+                                        dmc.Text("Douae Chrifi — backend", size="xs"),
+                                        dmc.Text("Arthur Lemke — backend", size="xs"),
+                                        dmc.Text("Fatima Moalin — backend", size="xs"),
+                                        dmc.Text("Kamil Kuit — database", size="xs"),
+                                        dmc.Text("Bram Bolt — API", size="xs"),
+                                        dmc.Text("Olivier Broekman — API", size="xs"),
+                                        dmc.Text("Luc du Plessis — frontend", size="xs"),
+                                        dmc.Text("Jippe Pauwels — frontend", size="xs"),
+                                        dmc.Text("Erva Ulgen — frontend", size="xs"),
+                                        dmc.Group([
+                                        html.Span(":) ", style={"display": "inline-block", "transform": "rotate(90deg)"})
+                                        for _ in range(9)
+                                    ], gap=12, justify="center", mt="sm"),
+                                    ], gap=2),
+
+                                    
+                                ], gap="xs"),
+                                        p="lg",
+                                        style={
+                                            "width":           420,
+                                            "backgroundColor": colours.beige,
+                                            "maxHeight":       "min(900px, calc(100vh - 80px))",
+                                            "overflowY":       "auto",
+                                        },
+                                    ),
+                                ], position="bottom-start", withArrow=False, shadow="md", closeOnClickOutside=True),
+                       
                         # feedback button in header opens popover feedback form
                         dmc.Popover([
                             dmc.PopoverTarget(
@@ -309,7 +365,7 @@ def create_layout():
                                     html.Span(
                                         "Inference Diagram — cancer.net",
                                         id="center-panel-title",
-                                        style={"flex": 1, "fontSize": "11px",
+                                        style={"flex": 1, "fontSize": "14px",
                                                "fontWeight": "600"}
                                     ),
                                     dmc.Select(
@@ -396,7 +452,7 @@ def create_layout():
                                     "position": "relative",
                                     "overflow": "hidden",
                                     "margin": "0 6px 6px 6px",
-                                    "backgroundColor": colours.border_light,
+                                    "backgroundColor": colours.card_bg,
                                 })),
 
                             ], id="inference-paper", style=raised({
@@ -484,7 +540,7 @@ def create_layout():
                        "height": "calc(100vh - 36px)", "overflow": "hidden"},
             ),
         ],
-        header={"height": 36},
+        header={"height": 45},
         padding="xs",
         id="appshell",
     )

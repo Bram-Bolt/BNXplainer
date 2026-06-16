@@ -1,6 +1,6 @@
 from dash import callback, Input, Output, State, no_update
 from db.database import insertEntry
-from components.feedback_helpers import likert_question
+from components.feedback_helpers import likert_question, thank_you_message
 import dash_mantine_components as dmc
 import colours
 
@@ -9,6 +9,7 @@ import numpy as np
 def register_feedback_callbacks(app):
     @callback(
         Output("feedback-popover-content","children"),
+        Output("feedback-error", "children"), 
         Input("submit-feedback", 'n_clicks'),
         State('rating-website', 'value'),
         State('voi-q1', 'value'),
@@ -30,7 +31,7 @@ def register_feedback_callbacks(app):
         feedback_text):
         
         if not n_clicks:
-            return no_update
+            return no_update, no_update
         
         def safe_int(val):
             try:
@@ -38,7 +39,7 @@ def register_feedback_callbacks(app):
             except (TypeError, ValueError):
                 return np.nan
 
-        insertEntry(
+        correct_input= insertEntry(
                     safe_int(website_rating),
                     safe_int(voi_q1),
                     safe_int(voi_q2),
@@ -51,16 +52,11 @@ def register_feedback_callbacks(app):
                     safe_int(scenario_q3),
                     str(feedback_text) or "")
         
-        # VVVV this should not be here VVVV
-        # 
-        return dmc.Stack([
-            dmc.Text("Thank you for your feedback! ", fw=700, size="lg"),
-            dmc.Text("Your response has been submitted successfully.", size="sm",),],
-            gap="sm",)
-        # ^^^^^^^^
-        # instead return a boolean to call either succesfull "thank you" like this
-        # or a error message of wrong input
-        # which should be in pages/home.py
+        if correct_input:
+            return thank_you_message, ""
+        else:
+            return no_update, "⚠ Please fill in all required fields."
+    
     
     # Toggle hidden questions
     @callback(
