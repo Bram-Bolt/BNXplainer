@@ -77,7 +77,7 @@ def nav_button(label: str):
 
 
 def create_layout():
-
+    """Return the app shell containing upload, evidence, diagram, explanation, and feedback UI."""
     centered_html = """<html style="height: 100%; margin: 0;"></html>"""
 
     return dmc.AppShell(
