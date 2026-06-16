@@ -1,3 +1,10 @@
+
+# Copyright (c) 2026 MSDT Group 2 All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+"""Build the main Dash application layout and shared in-browser stores."""
+
 import dash_mantine_components as dmc
 import colours
 from dash import html, dcc

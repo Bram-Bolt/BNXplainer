@@ -1,3 +1,7 @@
+# Copyright (c) 2026 MSDT Group 2 All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 """App.py is the entry point for our project. It wires the page layout from pages.home.create_layout and registeres callbacks through callbacks.register_callback."""
 
 import warnings
@@ -11,7 +15,7 @@ from callbacks import register_callbacks
 import matplotlib
 matplotlib.use("Agg")
 
-app = Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, suppress_callback_exceptions=True, title="BNXplainer")
 
 # register all callbacks
 register_callbacks(app)

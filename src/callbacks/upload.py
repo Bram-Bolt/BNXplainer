@@ -1,3 +1,7 @@
+# Copyright (c) 2026 MSDT Group 2 All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 # uploads
 from dash import callback, Input, Output, State, no_update
 def register_upload_callbacks(app):
