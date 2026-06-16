@@ -34,7 +34,10 @@ thank_you_message = dmc.Stack([
     dmc.Text("Your response has been saved successfully.", size="sm", ta="center", c=colours.olive),
 ], gap="sm", style={
     "backgroundColor": colours.olive_light,
-    "border": f"1.5px solid {colours.olive}",
+    "borderTop": f"2px solid {colours.white}",
+    "borderLeft": f"2px solid {colours.white}",
+    "borderRight": f"2px solid {colours.shadow_darkest}",
+    "borderBottom": f"2px solid {colours.shadow_darkest}",
     "borderRadius": "0",
     "padding": "1.5rem",
     "textAlign": "center"
