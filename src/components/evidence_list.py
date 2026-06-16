@@ -1,3 +1,7 @@
+# Copyright (c) 2026 MSDT Group 2 All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 """Render target-selection cards and evidence radio controls for Bayes net nodes."""
 
 import dash_mantine_components as dmc

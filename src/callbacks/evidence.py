@@ -1,3 +1,7 @@
+# Copyright (c) 2026 MSDT Group 2 All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 """Collect submitted evidence choices into the shared Dash evidence store."""
 
 from dash import callback, Input, Output, State, ALL, ctx, no_update
