@@ -7,13 +7,12 @@ from utils.feature_extraction import extract_bn_features
 from dash import html
 
 def build_variable_data(bn, evidence=None, target= None):
-    """
-    Convert a BayesNet into the list-of-dicts that render_variable_list expects.
-    Each entry has:
-        name        – node name
-        prediction  – state with highest posterior probability
-        probability – that probability as a percentage (0-100)
-        role        - target, evidence or None
+    """Convert a BayesNet into row dictionaries for the prediction table.
+
+    Each returned dictionary contains the node name, most likely state,
+    probability percentage, and optional role. The role is ``"target"`` for
+    the selected target node, ``"evidence"`` for nodes with submitted
+    evidence, and ``None`` for all other nodes.
     """
     features = extract_bn_features(bn, evidence=evidence)
     evidence_nodes = set(evidence.keys()) if evidence else set()

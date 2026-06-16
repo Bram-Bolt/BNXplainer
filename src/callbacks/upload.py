@@ -1,6 +1,10 @@
-# uploads
+"""Handle uploaded Bayesian network files and reset derived app state."""
+
 from dash import callback, Input, Output, State, no_update
+
+
 def register_upload_callbacks(app):
+    """Register upload callbacks that refresh stores and displayed file names."""
 
     @callback(
         Output('bn-store', 'data'),

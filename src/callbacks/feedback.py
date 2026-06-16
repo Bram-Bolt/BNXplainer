@@ -79,6 +79,7 @@ def register_feedback_callbacks(app):
     Input("btn-scenario", "n_clicks"),
     )
     def toggle_feedback_sections(n_voi, n_mpe, n_scenario):
+        """Show optional feedback sections when their toggle clicks are odd."""
         section_visible = {
             "display": "block",
             "marginTop": "6px",
@@ -92,6 +93,7 @@ def register_feedback_callbacks(app):
         section_hidden = {"display": "none"}
         
         def is_on(n):
+            """Return whether a toggle button is currently in its visible state."""
             return n and n % 2 == 1
         
         return (
@@ -99,3 +101,4 @@ def register_feedback_callbacks(app):
             section_visible if is_on(n_mpe)      else section_hidden,
             section_visible if is_on(n_scenario) else section_hidden,
         )
+        

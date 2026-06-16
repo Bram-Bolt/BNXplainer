@@ -3,6 +3,7 @@
 import dash_mantine_components as dmc
 
 def explanation_selection():
+    """Return the VOI, MPE, and scenario explanation tabs."""
     return dmc.Tabs(
         dmc.TabsList([
             dmc.TabsTab("VOI",      value="voi"),

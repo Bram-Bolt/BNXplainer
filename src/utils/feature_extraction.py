@@ -16,10 +16,8 @@ def extract_bn_features(
         The Bayesian network to inspect.
     evidence:
         Optional evidence to apply before computing posterior probabilities.
-        Examples:
-            {"Smoker": "True"}
-            {"Pollution": 0}
-            {"Cancer": [0.8, 0.2]} 
+        Examples include ``{"Smoker": "True"}``, ``{"Pollution": 0}``, and
+        ``{"Cancer": [0.8, 0.2]}``.
 
     Returns
     -------
@@ -120,3 +118,4 @@ def extract_bn_features(
         "potentials": potentials,
         "evidence": evidence or {},
     }
+    

@@ -28,3 +28,7 @@ __pycache__
 **.db
 db_export.csv
 
+##############################
+## documentation generation
+##############################
+docs/

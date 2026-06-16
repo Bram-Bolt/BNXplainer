@@ -8,8 +8,8 @@ from components.explanation_selector import explanation_selection
 from utils.file_utils import load_placeholder_bn
 
 
-# raised win95 bevel: light top/left, dark bottom/right
 def raised(extra=None):
+    """Return a Win95-style raised bevel style merged with optional overrides."""
     style = {
         "borderTop": f"2px solid {colours.white}",
         "borderLeft": f"2px solid {colours.white}",
@@ -22,8 +22,8 @@ def raised(extra=None):
     return style
 
 
-# sunken win95 bevel: dark top/left, light bottom/right
 def sunken(extra=None):
+    """Return a Win95-style sunken bevel style merged with optional overrides."""
     style = {
         "borderTop": f"2px solid {colours.shadow_dark}",
         "borderLeft": f"2px solid {colours.shadow_dark}",
@@ -36,8 +36,8 @@ def sunken(extra=None):
     return style
 
 
-# panel title bar in blue with beige text
 def panel_title(text: str):
+    """Render a blue title bar for a content panel."""
     return html.Div(
         text,
         style={
@@ -51,8 +51,8 @@ def panel_title(text: str):
     )
 
 
-# raised Win95-style nav button
 def nav_button(label: str):
+    """Render a raised Win95-style navigation button for the header."""
     return html.Button(
         label,
         className="nav-btn",
