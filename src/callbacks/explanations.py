@@ -40,7 +40,7 @@ def register_explanation_callbacks(app):
         elif method == "scenario":
             return (
                 "Scenario Explanation looks at how different combinations of variable "
-                "states influence the target outcome under specified conditions."
+                "states influence the target outcome under specified conditions. "
                 "The method only looks at the direct parents of the target."
             )
         
