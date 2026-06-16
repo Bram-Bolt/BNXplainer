@@ -1,7 +1,3 @@
-# Copyright (c) 2026 MSDT Group 2 All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 """Control the right-panel explanation UI.
 
 Supports value of information, most probable explanation, and scenario
@@ -41,6 +37,7 @@ def register_explanation_callbacks(app):
             return (
                 "Scenario Explanation looks at how different combinations of variable "
                 "states influence the target outcome under specified conditions."
+                "The method only looks at the direct parents of the target."
             )
         
         return ""
