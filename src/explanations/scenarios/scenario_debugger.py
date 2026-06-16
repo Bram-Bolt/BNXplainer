@@ -1,6 +1,9 @@
+"""Print full scenario objects for terminal debugging."""
+
 from explanations.scenarios.models import FullScenario
 
 def print_full_scenario(fs: FullScenario) -> None:
+    """Write a FullScenario's probability, text, and notes to stdout."""
     print("=== Full Scenario ===")
     print(f"Probability : {fs.probability:.6f}")
     print("\nScenario:")
@@ -42,4 +45,4 @@ def print_full_scenario(fs: FullScenario) -> None:
 #                     )
 #                 print("=== End Scenario Explanation Debug ===\n")
 #                 explain_content = dmc.Text(
-#                     "Scenario debug output printed to the terminal."       
+#                     "Scenario debug output printed to the terminal."

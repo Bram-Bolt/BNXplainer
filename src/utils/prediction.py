@@ -1,3 +1,5 @@
+"""Compute posterior prediction summaries for target variables."""
+
 import pyagrum as gum
 
 
@@ -6,17 +8,16 @@ def compute_prediction(
     target: str,
     evidence: dict
 ) -> dict:
-    """Computes Prediction in a Bayesian Network
+    """Compute a target variable's posterior distribution under evidence.
 
     Args:
-        bn (gum.BayesNet): Bayesian Network
-        target (str): Name of target variable
-        evidence (dict): Current evidence
+        bn: Bayesian network used for inference.
+        target: Name of the target variable to predict.
+        evidence: Current evidence passed to pyAgrum.
 
     Returns:
-        dict: returns target, states, 
-        probabilities of states, most likely state,
-        and most likely probability of that state.
+        Target name, state labels, posterior probabilities, most likely state,
+        and that state's posterior probability.
     """
     ie = gum.LazyPropagation(bn)
     ie.setEvidence(evidence)

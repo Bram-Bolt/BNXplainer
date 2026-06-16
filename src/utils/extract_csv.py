@@ -1,3 +1,5 @@
+"""Export the feedback SQLite table to a CSV file."""
+
 import sqlite3
 import csv
 import sys
@@ -8,6 +10,7 @@ TABLE_NAME = "feedback"
 output_csv = f"{sys.argv[1]}.csv" if len(sys.argv) > 1 else "db_export.csv" 
 
 def export_table_to_csv():
+    """Write the configured SQLite feedback table to the configured CSV path."""
     # connect to db
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()

@@ -1,3 +1,5 @@
+"""Tests for serialising Bayes net features for the Dash UI."""
+
 import pyagrum as gum
 from pathlib import Path
 import sys
@@ -6,6 +8,7 @@ from utils.feature_extraction import extract_bn_features
 
 
 def test_extract_features_returns_expected_structure():
+    """Feature extraction returns the top-level keys and node counts."""
     bn = gum.loadBN("src/example_bns/cancer.net")
     features = extract_bn_features(bn)
 
@@ -17,6 +20,7 @@ def test_extract_features_returns_expected_structure():
 
 
 def test_extract_features_returns_expected_edges_and_posteriors():
+    """Extracted edges, evidence, and posterior maps match the cancer network."""
     bn = gum.loadBN("src/example_bns/cancer.net")
     features = extract_bn_features(bn, evidence={"Smoker": "True"})
 

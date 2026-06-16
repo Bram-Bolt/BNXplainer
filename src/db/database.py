@@ -1,3 +1,5 @@
+"""Persist feedback form submissions to SQLite and export stored feedback."""
+
 import sqlite3
 import subprocess
 
@@ -52,6 +54,7 @@ def insertEntry(website_rating,
 # CONVERT SQLITE (.db) TO CSV FILE USING SHELL
 
 def SqliteToCsv():
+    """Launch a shell command that exports the feedback table to feedback.csv."""
     subprocess.Popen('sqlite3 -header -csv feedback.db "select * from feedback;" > feedback.csv', shell=True)
 
 # HELPER FUNCTION
@@ -96,5 +99,4 @@ def inputValidationDB(website_rating,
         print("Invalid open comment string")
         is_invalid =  True  # Invalid input
 
-    return is_invalid 
-
+    return is_invalid

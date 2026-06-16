@@ -1,7 +1,9 @@
-# callbacks/evidence.py
+"""Collect submitted evidence choices into the shared Dash evidence store."""
+
 from dash import callback, Input, Output, State, ALL, ctx, no_update
 
 def register_evidence_callback(app):
+    """Register the callback that stores selected evidence radio values."""
     @callback(
         Output('evidence-store', 'data'),
         Output({'type': 'evidence-radiogroup', 'node': ALL}, 'value'),

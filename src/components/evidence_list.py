@@ -1,3 +1,5 @@
+"""Render target-selection cards and evidence radio controls for Bayes net nodes."""
+
 import dash_mantine_components as dmc
 import pyagrum as gum
 import colours
@@ -5,6 +7,7 @@ from dash import html
 from utils.feature_extraction import extract_bn_features
 
 def get_evidence_list(bn: gum.BayesNet):
+    """Build node cards with target buttons and per-state evidence radio cards."""
     features = extract_bn_features(bn)
 
     node_buttonlist = []

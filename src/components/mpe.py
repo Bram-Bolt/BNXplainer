@@ -1,7 +1,9 @@
-# VOI visualization
+"""Render most probable explanation output for the right panel."""
+
 import dash_mantine_components as dmc
 
 def render_mpe_list(mpe_data):
+    """Render MPE assignment data as probability and node-state rows."""
     if not mpe_data:
         return dmc.Text("No data available.")
     

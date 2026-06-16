@@ -1,3 +1,5 @@
+"""Build the main Dash application layout and shared in-browser stores."""
+
 import dash_mantine_components as dmc
 import colours
 from dash import html, dcc
@@ -7,6 +9,7 @@ from components.explanation_selector import explanation_dropdown_selection
 from utils.file_utils import load_placeholder_bn
 
 def create_layout():
+    """Return the app shell containing upload, evidence, diagram, explanation, and feedback UI."""
 
     centered_html = """<html style="height: 100%; margin: 0;">
     </html>"""
@@ -281,4 +284,3 @@ def create_layout():
         padding="md",
         id="appshell",
     )
-

@@ -1,4 +1,6 @@
 
+"""Build and render variable prediction rows for the centre-panel table view."""
+
 import dash_mantine_components as dmc
 import colours
 from utils.feature_extraction import extract_bn_features
@@ -8,9 +10,9 @@ def build_variable_data(bn, evidence=None):
     """
     Convert a BayesNet into the list-of-dicts that render_variable_list expects.
     Each entry has:
-        name        – node name
-        prediction  – state with highest posterior probability
-        probability – that probability as a percentage (0-100)
+        name - node name
+        prediction - state with highest posterior probability
+        probability - that probability as a percentage (0-100)
     """
     features = extract_bn_features(bn, evidence=evidence)
     variables = []
@@ -27,8 +29,8 @@ def build_variable_data(bn, evidence=None):
         })
     return variables
 
-# Helper function to display the list of variables in the explanation method
 def render_variable_list(variables):
+    """Render variable prediction dictionaries as scrollable table rows."""
     if not variables:
         return dmc.Text("No variables available.")
 

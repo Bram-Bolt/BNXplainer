@@ -1,3 +1,5 @@
+"""Render legacy slider-based node cards from Bayes net posterior features."""
+
 import dash_mantine_components as dmc
 import pyagrum as gum
 import colours
@@ -5,6 +7,7 @@ from dash import html
 from utils.feature_extraction import extract_bn_features
 
 def get_nodelist(bn: gum.BayesNet):
+    """Build node cards with probability sliders for each node state."""
     # Extract BN features and create a list of components
     features = extract_bn_features(bn)
     node_elements = []

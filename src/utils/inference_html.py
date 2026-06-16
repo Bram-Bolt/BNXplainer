@@ -1,11 +1,13 @@
+"""Render pyAgrum inference diagrams as embeddable iframe HTML."""
+
 import pyagrum as gum
 import pyagrum.lib.notebook as gnb
 import colours
 
-# Generate Inference HTML from Bayesian Network 
 def generate_inference_html(bn: gum.BayesNet = gum.fastBN("Cloudy?->Sprinkler?->WetGrass?<-Rain?<-Cloudy?"),
                             target: str = None, 
                             evidence: dict[str, str | int | list[float]] = None) -> str:
+    """Return centred, pan-zoomable inference HTML for a Bayes net."""
     if evidence is None and target is None:
         inference_html = gnb.getInference(bn, size="20")
     elif evidence is None:

@@ -1,7 +1,10 @@
+"""Render the explanation-method selector used by the right-panel callbacks."""
+
 import dash_mantine_components as dmc
 import colours
 
 def explanation_dropdown_selection():
+    """Return the VOI, MPE, and scenario explanation dropdown."""
     return dmc.Select(
         id="explanation-selector",
         data=[

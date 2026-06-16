@@ -1,10 +1,12 @@
-# callbacks/generate_image.py
+"""Update the centre-panel inference diagram and prediction table."""
+
 from dash import callback, Input, Output, no_update, ctx
 from utils.file_utils import load_bn_from_base64
 from utils.inference_html import generate_inference_html
 from components.variable_table import build_variable_data, render_variable_list
 
 def register_image_callback(app):
+    """Register callbacks for the centre-panel network views."""
     @callback(
         Output('inference-iframe', 'srcDoc'),
         Input('evidence-store', 'data'),
@@ -12,8 +14,8 @@ def register_image_callback(app):
         Input('target-store', 'data'),
         prevent_initial_call=True
     )
-    def update_image(evidence: dict[str, list], data: dict[str, str], target: str) -> str:
-        """Updates the BayesNet inference diagram in the center panel."""
+    def update_image(evidence: dict[str, str], data: dict[str, str], target: str) -> str:
+        """Render updated inference HTML after evidence, target, or network changes."""
         if not evidence and not data:
             return no_update
         contents = data['str_bn']
@@ -39,7 +41,7 @@ def register_image_callback(app):
         Input('bn-store',             'data'),
     )
     def toggle_center_view(view: str, evidence: dict, data: dict):
-        """Switches the center panel between the inference diagram and prediction table."""
+        """Switch the centre panel between the inference diagram and prediction table."""
         iframe_visible = {"width": "100%", "height": "100%", "flex": 1, "border": "none"}
         iframe_hidden  = {"display": "none"}
         table_visible  = {"flex": 1, "overflow": "hidden"}

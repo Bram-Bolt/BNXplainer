@@ -1,3 +1,5 @@
+"""Convert scenario assignments into reader-facing explanation text."""
+
 from explanations.scenarios.models import FullScenario, ScenarioNode
 import pyagrum as gum
 import numpy as np
@@ -9,6 +11,7 @@ def build_scenario_from_explanation(
     joint_prob: float,
     target: str,
 ) -> FullScenario:
+    """Build a FullScenario from one ranked assignment returned by scenario search."""
     
     fs = FullScenario(
         probability=joint_prob,
@@ -123,6 +126,7 @@ def is_implausible(bn:gum.BayesNet,node_name:str,node_value) -> bool:
 
 
 def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) -> str:
+    """Return the main scenario sentence from explanatory nodes and target node."""
 
     scenario = ""
 
@@ -146,8 +150,8 @@ def generate_target_outcome(elements: list[ScenarioNode], target: ScenarioNode) 
 
 
 
-# convert numerical probabilities to string
 def prob_to_str(prob: float) -> str:
+    """Convert a probability into the qualitative adverb used in scenario text."""
     if prob >= 0.99:
         return "extremely strongly"
     if prob > 0.90:
@@ -163,15 +167,15 @@ def prob_to_str(prob: float) -> str:
     return "very weakly"
 
 
-# implausible evidence
 def generate_implausible_sentence(node: ScenarioNode)-> str: 
+    """Return an implausibility sentence for a scenario node assignment."""
     prob = 1 - node.prob # because less likely is 'stronger'
     prob = prob_to_str(node.prob)
     sentence = f"{node.name} being {node.value} is {prob} unlikely"
     return sentence
 
-# supporting elements
 def generate_supporting_sentence(node: ScenarioNode)->str:
+    """Return a supporting sentence for a node that increases target likelihood."""
     prob = prob_to_str(node.prob)
     sentence = f"{prob} supported by {node.name} being {node.value}"
     return sentence
