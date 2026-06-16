@@ -7,6 +7,7 @@
 
 import dash_mantine_components as dmc
 import colours
+import os
 from dash import html, dcc
 from components.feedback_helpers import likert_question, likert_range
 from components.explanation_selector import explanation_selection
@@ -87,7 +88,7 @@ def create_layout():
                 id='bn-store',
                 storage_type='memory',
                 data={
-                    "str_bn": load_placeholder_bn("src/example_bns/cancer.net"),
+                    "str_bn": load_placeholder_bn(os.path.join("src", "example_bns", "cancer.net")),
                     "filename": "cancer.net"
                 }
             ),
