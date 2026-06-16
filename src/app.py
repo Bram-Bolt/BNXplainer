@@ -22,4 +22,4 @@ register_callbacks(app)
 app.layout = dmc.MantineProvider(create_layout())
 
 if __name__ == "__main__":
-    app.run(debug=True) # Before submitting it to the client or when the app is hosted this should be set to false.
+    app.run(debug=False) # Before submitting it to the client or when the app is hosted this should be set to false.

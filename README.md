@@ -28,9 +28,7 @@ We hope our efforts contribute to address this gap and improving how Bayesian ne
   
 
 ```
-
 python -m venv venv
-
 ```
 
   
@@ -42,9 +40,7 @@ python -m venv venv
 Linux/Mac:
 
 ```
-
 source venv/bin/activate
-
 ```
 
   
@@ -52,17 +48,13 @@ source venv/bin/activate
 Windows:
 
 ```
-
 venv\Scripts\activate
-
 ```
 
 OR
 
 ```
-
 venv\Scripts\Activate.ps1
-
 ```
 
   
@@ -70,9 +62,7 @@ venv\Scripts\Activate.ps1
 **To install the correct packages use:**
 
 ```
-
 pip install -r requirements.txt
-
 ```
 
   
@@ -80,9 +70,7 @@ pip install -r requirements.txt
 **To start the app use:**
 
 ```
-
 python src/app.py
-
 ```
 
 It should open on `http://127.0.0.1:8050/`
@@ -92,15 +80,43 @@ It should open on `http://127.0.0.1:8050/`
 **To leave your environment use:**
 
 ```
-
 deactivate
-
 ```
-
-  
 
 Further reference: https://docs.python.org/3/library/venv.html
 
+
+### Export SQLite Feedback Table to CSV
+
+This script exports the `feedback` table from the SQLite database to a CSV file.
+
+**Usage**
+
+Run the script from the command line:
+
+```
+python src/utils/extract_csv.py
+```
+
+This creates:
+
+```
+db_export.csv
+```
+
+**Custom Output Filename**
+
+You can provide a filename as an argument:
+
+```
+python src/utils/extract_csv.py feedback_export
+```
+
+This creates:
+
+```
+feedback_export.csv
+```
   
 # About us
 
