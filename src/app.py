@@ -11,7 +11,7 @@ from callbacks import register_callbacks
 import matplotlib
 matplotlib.use("Agg")
 
-app = Dash(__name__)
+app = Dash(__name__, suppress_callback_exceptions=True)
 
 # register all callbacks
 register_callbacks(app)

@@ -22,7 +22,7 @@ def insertEntry(website_rating,
         mpe_q1, mpe_q2, mpe_q3,
         scenario_q1, scenario_q2, scenario_q3, 
         feedback_text)): 
-        return print("Invalid feedback input")
+        return False
 
     # SET CONNECTOR AND CURSOR FOR SQLITE
     con = sqlite3.connect("src/db/feedback.db")
@@ -47,6 +47,7 @@ def insertEntry(website_rating,
                 feedback_text])
     
     con.commit()
+    return True
 
     
     

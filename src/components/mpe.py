@@ -1,6 +1,7 @@
 """Render most probable explanation output for the right panel."""
 
 import dash_mantine_components as dmc
+from dash import html
 
 def render_mpe_list(mpe_data):
     """Render MPE assignment data as probability and node-state rows."""
@@ -13,13 +14,10 @@ def render_mpe_list(mpe_data):
     components = [
         dmc.Box([
             dmc.Group([
-                dmc.Text(f"Probability of this assignment:", size="sm", fw=700),
+                dmc.Text("Probability of this assignment:", size="sm", fw=700),
                 dmc.Text(prob, size="sm")
             ], justify="space-between", mb=4),
         ]),
-        dmc.Box(),
-        dmc.Box(),
-        dmc.Box(),
         dmc.Box([
             dmc.Group([
                 dmc.Text("Node", size="sm", fw=700),
@@ -39,16 +37,7 @@ def render_mpe_list(mpe_data):
         )
 
         
-    return dmc.ScrollArea(
-        dmc.Stack(components, gap="xs"),
-        style={"flex": 1, "paddingRight": "11px"},
-        offsetScrollbars=False,
-        type="hover",
-        scrollbarSize=6,
-        styles={
-            "scrollbar": {
-                "backgroundColor": "transparent",
-                "&:hover": {"backgroundColor": "transparent"}
-            }
-        },
-    )
+    return html.Div(
+            dmc.Stack(components, gap="xs"),
+            style={"flex": 1, "paddingRight": "11px", "overflowY": "auto"},
+        )

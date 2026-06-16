@@ -2,6 +2,7 @@
 
 import dash_mantine_components as dmc
 import colours
+from dash import html
 
 def render_voi_list(voi_data):
     """Render VOI data sorted upstream as a relative EVPI progress bars."""
@@ -18,22 +19,13 @@ def render_voi_list(voi_data):
             dmc.Box([
                 dmc.Group([
                     dmc.Text(item["variable"], fw=500, size="sm"),
-                    dmc.Text(f"{item['evpi']:.4f} bits", size="xs", c="dimmed"),
+                    dmc.Text(f"{item['evpi']:.4f} bits", size="xs", c=colours.grey),
                 ], justify="space-between", mb=4),
-                dmc.Progress(value=pct, size="md", color= colours.maroon, radius="xl")
-            ], mb="md")
+                dmc.Progress(value=pct, size="xl", radius="0")
+            ], mb="md", className="win95-progress")
         )
-        
-    return dmc.ScrollArea(
-        dmc.Stack(components, gap="xs"),
-        style={"flex": 1, "paddingRight": "11px"},
-        offsetScrollbars=False,
-        type="hover",
-        scrollbarSize=6,
-        styles={
-            "scrollbar": {
-                "backgroundColor": "transparent",
-                "&:hover": {"backgroundColor": "transparent"}
-            }
-        },
-    )
+
+    return html.Div(
+    dmc.Stack(components, gap="xs"),
+    style={"flex": 1, "paddingRight": "11px", "overflowY": "auto"},
+)

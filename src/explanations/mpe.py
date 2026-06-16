@@ -54,3 +54,21 @@ def compute_mpe(
         "result": result,
         "probability": round(float(probability), 6)
     }
+
+
+def mpe_to_display(mpe_output: dict) -> list:
+    """Transform MPE output to proper format for displaying.
+
+    Args:
+        mpe_output (dict): MPE output from compute_mpe().
+
+    Returns:
+        list: MPE assignment rows with variable names and state labels.
+    """
+    return [
+        {
+            "variable": variable,
+            "state": state,
+        }
+        for variable, state in mpe_output["result"].items()
+    ]

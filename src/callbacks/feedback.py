@@ -2,7 +2,9 @@
 
 from dash import callback, Input, Output, State, no_update
 from db.database import insertEntry
+from components.feedback_helpers import likert_question, thank_you_message
 import dash_mantine_components as dmc
+import colours
 
 import numpy as np
 
@@ -10,6 +12,7 @@ def register_feedback_callbacks(app):
     """Register callbacks that submit feedback and toggle optional form sections."""
     @callback(
         Output("feedback-popover-content","children"),
+        Output("feedback-error", "children"), 
         Input("submit-feedback", 'n_clicks'),
         State('rating-website', 'value'),
         State('voi-q1', 'value'),
@@ -38,8 +41,8 @@ def register_feedback_callbacks(app):
         """
 
         if not n_clicks:
-            return no_update
-
+            return no_update, no_update
+        
         def safe_int(val):
             """Convert a submitted radio-button value to int, or NaN when missing."""
             try:
@@ -47,7 +50,7 @@ def register_feedback_callbacks(app):
             except (TypeError, ValueError):
                 return np.nan
 
-        insertEntry(
+        correct_input= insertEntry(
                     safe_int(website_rating),
                     safe_int(voi_q1),
                     safe_int(voi_q2),
@@ -60,16 +63,11 @@ def register_feedback_callbacks(app):
                     safe_int(scenario_q3),
                     str(feedback_text) or "")
         
-        # VVVV this should not be here VVVV
-        # 
-        return dmc.Stack([
-            dmc.Text("Thank you for your feedback! ", fw=700, size="lg"),
-            dmc.Text("Your response has been submitted successfully.", size="sm",),],
-            gap="sm",)
-        # ^^^^^^^^
-        # instead return a boolean to call either succesfull "thank you" like this
-        # or a error message of wrong input
-        # which should be in pages/home.py
+        if correct_input:
+            return thank_you_message, ""
+        else:
+            return no_update, "⚠ Please fill in all required fields."
+    
     
     # Toggle hidden questions
     @callback(
@@ -81,9 +79,23 @@ def register_feedback_callbacks(app):
     Input("btn-scenario", "n_clicks"),
     )
     def toggle_feedback_sections(n_voi, n_mpe, n_scenario):
-        """Show or hide optional feedback sections based on toggle button clicks."""
-        def visible_style(n):
-            """Return the CSS display style for an optional section."""
-            return {"display": "block"} if n and n % 2 == 1 else {"display": "none"}
-
-        return visible_style(n_voi), visible_style(n_mpe), visible_style(n_scenario)
+        section_visible = {
+            "display": "block",
+            "marginTop": "6px",
+            "padding": "8px",
+            "backgroundColor": colours.card_bg,
+            "borderTop": f"2px solid {colours.shadow_dark}",
+            "borderLeft": f"2px solid {colours.shadow_dark}",
+            "borderRight": f"2px solid {colours.white}",
+            "borderBottom": f"2px solid {colours.white}",
+        }
+        section_hidden = {"display": "none"}
+        
+        def is_on(n):
+            return n and n % 2 == 1
+        
+        return (
+            section_visible if is_on(n_voi)      else section_hidden,
+            section_visible if is_on(n_mpe)      else section_hidden,
+            section_visible if is_on(n_scenario) else section_hidden,
+        )
