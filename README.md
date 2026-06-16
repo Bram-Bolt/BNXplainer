@@ -4,7 +4,7 @@
 
 # BNXplainer
 
-**As part of:** MSDT2526
+**As part of:** MSDT2526;
 **Built by:** Group 2.
 
 
