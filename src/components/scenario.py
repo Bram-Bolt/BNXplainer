@@ -61,7 +61,7 @@ def render_scenario_list(scenarios: list[FullScenario]):
         # condition
         if condition:
             card_children.append(
-            dmc.Text(condition, fw=500, size="xs", mb=8,
+            dmc.Text(f"{condition}: ", fw=500, size="xs", mb=8,
                         style={"padding": "0 6px"})
             )
 
