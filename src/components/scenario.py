@@ -12,12 +12,12 @@ from dash import html
 
 def _prob_to_label(p: float) -> str:
     """Convert a probability into the qualitative label shown in the UI."""
-    if p >= 0.99: return "Extremely likely"
-    if p >= 0.90: return "Very strongly likely"
-    if p >= 0.70: return "Strongly likely"
-    if p >= 0.50: return "Moderately likely"
-    if p >= 0.30: return "Weakly likely"
-    if p >= 0.10: return "Very weakly likely"
+    if p >= 0.99: return "Joint Probability: Extremely likely"
+    if p >= 0.90: return "Joint Probability: Very strongly likely"
+    if p >= 0.70: return "Joint Probability: Strongly likely"
+    if p >= 0.50: return "Joint Probability: Moderately likely"
+    if p >= 0.30: return "Joint Probability: Weakly likely"
+    if p >= 0.10: return "Joint Probability: Very weakly likely"
     return "Unlikely"
 
 
@@ -41,22 +41,22 @@ def render_scenario_list(scenarios: list[FullScenario]):
         #condition
         if condition:
             card_children.append(
-                html.Div(
-                    condition,
-                    style={
-                        "fontSize": "10px",
-                        "fontStyle": "italic",
-                        "color": colours.grey,
-                        "backgroundColor": colours.beige_dark,
-                        "padding": "3px 8px",
-                        "marginBottom": "8px",
-                        "borderTop": f"1px solid {colours.white}",
-                        "borderLeft": f"1px solid {colours.white}",
-                        "borderRight": f"1px solid {colours.shadow}",
-                        "borderBottom": f"1px solid {colours.shadow}",
-                    }
-                )
+            html.Div(
+                f"With Scenario {scenarios.index(fs) + 1} being {'True' if fs.probability >= 0.5 else 'False'}",
+                style={
+                    "fontSize": "10px",
+                    "fontStyle": "italic",
+                    "color": colours.grey,
+                    "backgroundColor": colours.beige_dark,
+                    "padding": "3px 8px",
+                    "marginBottom": "8px",
+                    "borderTop": f"1px solid {colours.white}",
+                    "borderLeft": f"1px solid {colours.white}",
+                    "borderRight": f"1px solid {colours.shadow}",
+                    "borderBottom": f"1px solid {colours.shadow}",
+                }
             )
+        )
 
         #outcome sentence
         card_children.append(
